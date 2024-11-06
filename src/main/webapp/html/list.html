@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="text/javascript" src="/js/tboard-common.js" charset="UTF-8"></script>
+
+    <!-- Flatpickr CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- 한글 로케일 -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.min.js"></script>
+
+    
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery-ui-monthpicker@1.0.3/jquery.ui.monthpicker.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/jquery-ui-monthpicker@1.0.3/external/qunit.min.css" rel="stylesheet">
+
+
     <title>통합게시판 검색</title>
     <style>
         /* 리셋 CSS */
@@ -228,6 +247,61 @@
             </div>
         </div>
 
+        <!-- 여섯 번째 로우: 단일 날짜 -->
+        <div data-tboard-id="dateType1" class="search-row">
+            <div data-tboard-id="search_row">
+                <div data-tboard-id="dateType1_title">
+                    <span>단일 날짜1</span>
+                </div>
+                <div data-tboard-id="dateType1_content">
+                    <!-- 날짜 피커 사용 -->
+                    <input type="text" id="datepicker">
+                </div>
+            </div>
+        </div>
+
+        <!-- 여섯 번째 로우: 단일 날짜 -->
+        <div data-tboard-id="dateType1" class="search-row">
+            <div data-tboard-id="search_row">
+                <div data-tboard-id="dateType1_title">
+                    <span>단일 날짜2</span>
+                </div>
+                <div data-tboard-id="dateType1_content">
+                    <!-- 날짜 피커 사용 -->
+                    <input type="text" id="datepicker2">
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 여섯 번째 로우: 단일 날짜 -->
+        <div data-tboard-id="dateType1" class="search-row">
+            <div data-tboard-id="search_row">
+                <div data-tboard-id="dateType1_title">
+                    <span>단일 날짜3</span>
+                </div>
+                <div data-tboard-id="dateType1_content">
+                    <!-- 날짜 피커 사용 -->
+                    <input type="text" id="Pikaday">
+                </div>
+            </div>
+        </div>
+
+        <!-- 여섯 번째 로우: 단일 날짜 -->
+        <div data-tboard-id="dateType1" class="search-row">
+            <div data-tboard-id="search_row">
+                <div data-tboard-id="dateType1_title">
+                    <span>단일 날짜4</span>
+                </div>
+                <div data-tboard-id="dateType1_content">
+                    <!-- 날짜 피커 사용 -->
+                    <input type="text" id="monthpicker">
+                </div>
+            </div>
+        </div>
+        
+
+
         <!-- 일곱 번째 로우: 기간 날짜 -->
         <div data-tboard-id="datePeriodType1" class="search-row">
             <div data-tboard-id="search_row">
@@ -244,6 +318,7 @@
             </div>
         </div>
     </div>    
+
 </div>
 </body>
 </html>
