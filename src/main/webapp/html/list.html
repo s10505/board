@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="text/javascript" src="/js/tboard-common.js" charset="UTF-8"></script>
+    
 
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -22,6 +22,10 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-ui-monthpicker@1.0.3/jquery.ui.monthpicker.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/jquery-ui-monthpicker@1.0.3/external/qunit.min.css" rel="stylesheet">
 
+    <script type="text/javascript" src="/js/sample-data.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/js/tboard-common.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/js/tboard-init.js" charset="UTF-8"></script>
+    
 
     <title>통합게시판 검색</title>
     <style>
@@ -155,7 +159,7 @@
 </head>
 <body>
 
-<div class="bbs-root">
+<div class="bbs-root" data-tboard-id="tboard-root">
     <h1>통합게시판 검색</h1>
 
     <div id="search-form" class="search-default-area" data-tboard-id="searchDefaultArea">
