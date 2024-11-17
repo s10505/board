@@ -2,10 +2,10 @@
 // 페이지 로드 시 조회조건 요소 생성
 document.addEventListener('DOMContentLoaded', () => {    
     debugger;
-    const koshaTboard = KoshaTboard.init({
-        bbsId: ""
-        , channel: ""
-    })
+    //const koshaTboard = KoshaTboard.init({
+      //  bbsId: ""
+        //, channel: ""
+    //});
     /*.then((rtn) => {
         if (rtn.code === "-1") {
             alert(rtn.msg);
@@ -20,14 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     //화면에서 사용할 객체로 변환
     //const srchCondition = new SearchCondition(srchFieldInfo, datas);
 
-    initDatePicker();
+    //initDatePicker();
 });
 
 
 
 function initDatePicker() {
-    log.log("pos1");
-    //객체 추출
+        //객체 추출
 
     // flatpickr("#datepicker", {
     //     locale: "ko",
