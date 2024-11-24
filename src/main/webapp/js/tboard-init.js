@@ -2,20 +2,12 @@
 // 페이지 로드 시 조회조건 요소 생성
 document.addEventListener('DOMContentLoaded', () => {    
     debugger;
-    //const koshaTboard = KoshaTboard.init({
-      //  bbsId: ""
-        //, channel: ""
+
+    //const koshaTboard = window.koshaTboard.init({
+       //  bbsId: ""
+         //, channel: ""
     //});
-    /*.then((rtn) => {
-        if (rtn.code === "-1") {
-            alert(rtn.msg);
-        }
-
-        //koshaTboard.getNode();
-
-    })*/;
-
-
+    
 
     //화면에서 사용할 객체로 변환
     //const srchCondition = new SearchCondition(srchFieldInfo, datas);

@@ -15,6 +15,8 @@ public class TboardApplication {
 		springApplication.setBannerMode(Banner.Mode.OFF);
 		springApplication.setLogStartupInfo(true);
 		springApplication.run(args);
+		
+		System.out.println("----------------------------------start");
 	}
 
 }
