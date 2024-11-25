@@ -87,6 +87,10 @@ public class TboardService extends EgovAbstractServiceImpl {
 			//조회 2
 			JSONObject myOptGrid = this.myoptDatas();
 			
+			//조회 3
+			JSONObject artclList = this.artclDatas();
+			
+			
 			JSONArray arrMyOpt = (JSONArray)myOptGrid.get("data");
 			String pOptCode = "";
 			String optCode  = "";
@@ -113,6 +117,8 @@ public class TboardService extends EgovAbstractServiceImpl {
 			JSONObject rtnObject = new JSONObject();
 			rtnObject.put("fullOptions", allOptGrid.get("data"));
 			rtnObject.put("userOptions", rtnArrMyOpt);
+			rtnObject.put("artclList", artclList.get("data"));
+			
 			rtnDataUtil.setData(rtnObject);
 			
 		} catch (CustomException e) {
@@ -237,6 +243,37 @@ public class TboardService extends EgovAbstractServiceImpl {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("PARENT_OPTION_CODE", row[0]);
             jsonObject.put("OPTION_CODE", row[1]);
+            jsonArray.add(jsonObject);
+        }
+        
+        JSONObject rtnObject = new JSONObject();
+        rtnObject.put("data", jsonArray);
+        
+		return rtnObject;
+	}
+	
+	
+	public JSONObject artclDatas() {
+		String[][] data = {
+            {"search", "control", "ALL", "{\"C01010001\":{\"req\":\"\", \"prm\": \"N\", \"enc\":\"\", \"len\":\"50\"}}", ""},
+            {"search", "control", "ALL", "{\"C01010002\":{\"req\":\"Y\", \"prm\": \"N\", \"enc\":\"\", \"len\":\"20\"}}", ""},
+            {"search", "control", "ALL", "{\"C01010003\":{\"req\":\"Y\", \"prm\": \"N\", \"enc\":\"\", \"len\":\"30\"}}", ""},
+            {"search", "control", "ALL", "{\"C01010004\":{\"req\":\"N\", \"prm\": \"N\", \"enc\":\"\", \"len\":\"40\"}}", ""},
+            {"search", "control", "ALL", "{\"C01010005\":{\"req\":\"N\", \"prm\": \"N\", \"enc\":\"\", \"len\":\"50\"}}", ""},
+            {"search", "sort", "ALL", "{\"1\":\"C01010001\", \"2\": \"C01010002\", \"3\":\"C01010003\", \"4\":\"C01010004\", \"5\":\"C01010005\"}", ""},
+        };
+
+        // JSONArray 생성
+        JSONArray jsonArray = new JSONArray();
+
+        // 각 데이터를 JSON 객체로 변환 후 배열에 추가
+        for (String[] row : data) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("fldStngCd", row[0]);
+            jsonObject.put("viewStngCd", row[1]);
+            jsonObject.put("resultType", row[2]);
+            jsonObject.put("fldStngCn", row[3]);
+            jsonObject.put("viewStngCn", row[4]);
             jsonArray.add(jsonObject);
         }
         

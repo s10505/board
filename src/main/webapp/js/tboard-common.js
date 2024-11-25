@@ -20,6 +20,10 @@
             this.tAjax = new TboardAjax();
             
             this.koshaTboard = KOSHATboard.instance;
+            
+            this.fullFldOptions = {};
+            this.userFldOptions = {};
+            
 
             this.fullOptions = {};
             this.userOptions = {};
@@ -74,10 +78,19 @@
             //권한체크
             await this.checkPermission();
 
+
+
+
+
             this.tboardViewManager = new TboardViewManager(this.fullOptions, this.userOptions);
             //debugger;
             this.tboardViewEvent = new TboardViewEvent(this.viewType, this.tboardViewManager.bbsView);
-            //debugger;
+            
+            
+            debugger;
+
+
+
 
         }
 
@@ -93,6 +106,9 @@
 
                         self.fullOptions = {};
                         self.userOptions = {};
+                        self.fullFldOptions = {};
+                        self.userFldOptions = {};
+                        
 
                         // 데이터 순회
                         _data.rtnData.fullOptions.forEach(item => {
@@ -120,7 +136,45 @@
                             self.userOptions[fncOption][prmOption] = hash;
                         });
 
-                        console.log(self.fullOptions, self.userOptions);
+
+                        // 데이터 순회
+                        //50%, 100%
+
+                        //list : width
+
+
+                        _data.rtnData.artclList.forEach(item => {
+                            if (item.resultType === "ALL") {
+                                self.fullFldOptions[item.fldStngCd] = self.fullFldOptions[item.fldStngCd] || {};
+                                self.fullFldOptions[item.fldStngCd][item.viewStngCd] = self.fullFldOptions[item.fldStngCd][item.viewStngCd] || {};
+                                
+                                self.fullFldOptions[item.fldStngCd][item.viewStngCd] = {...self.fullFldOptions[item.fldStngCd][item.viewStngCd], ...JSON.parse(item.fldStngCn)};
+
+                                let objFldStng = JSON.parse(item.fldStngCn);
+                                console.log(self.fullFldOptions);
+                            }
+                            else {
+
+                                self.userFldOptions[item.fldStngCd] = self.userFldOptions[item.fldStngCd] || {};
+                                self.userFldOptions[item.fldStngCd][item.viewStngCd] = self.userFldOptions[item.fldStngCd][item.viewStngCd] || {};
+                                
+                                self.userFldOptions[item.fldStngCd][item.viewStngCd] = {...self.userFldOptions[item.fldStngCd][item.viewStngCd], ...JSON.parse(item.fldStngCn)};
+
+                                let objFldStng = JSON.parse(item.fldStngCn);
+                                console.log(self.userFldOptions);
+
+
+                            }
+
+                            // let fncOption = optCd.split(".")[0];
+                            // let prmOption = optCd.split(".")[1];
+                            // self.artclOptions[fncOption] = self.userOptions[fncOption] || {};
+                            // self.artclOptions[fncOption][prmOption] = hash;
+                        });
+
+
+
+                        console.log(self.fullFldOptions, self.userFldOptions);
 
                         resolve();
                     }
