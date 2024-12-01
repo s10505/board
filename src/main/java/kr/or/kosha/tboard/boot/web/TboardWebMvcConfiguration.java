@@ -4,15 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager;
 import org.egovframe.rte.ptl.mvc.tags.ui.pagination.PaginationRenderer;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
-import org.springframework.boot.web.servlet.filter.OrderedCharacterEncodingFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -23,6 +24,7 @@ import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
+
 import egovframework.example.cmmn.web.EgovBindingInitializer;
 import egovframework.example.cmmn.web.EgovImgPaginationRenderer;
 
@@ -120,4 +122,12 @@ public class TboardWebMvcConfiguration extends WebMvcConfigurationSupport {
 		return registrationBean;
 	}
 
+	
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("http://127.0.0.1:5500", "http://localhost:5500")
+                .allowedMethods("GET", "POST", "PUT", "DELETE")
+                .allowedHeaders("*");
+    }
 }

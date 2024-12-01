@@ -1,0 +1,178 @@
+/* 전체 폼 스타일 */
+.tboard-row {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+/* 레이블 스타일 */
+.tboard-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    width: 120px; /* 레이블의 고정 너비 */
+    margin-right: 10px;
+}
+
+/* 입력 요소 스타일 */
+.tboard-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+/* 텍스트 입력 필드 스타일 */
+.tboard-input input,
+.tboard-input select,
+.tboard-input textarea {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+.tboard-input input[type="radio"],
+.tboard-input input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+}
+
+/* 텍스트 영역 스타일 */
+.tboard-textarea textarea {
+    height: 120px;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    box-sizing: border-box;
+}
+
+/* 파일 입력 스타일 */
+.tboard-atach {
+    display: flex;
+    align-items: center;
+}
+
+.tboard-atach input[type="file"] {
+    margin-right: 10px;
+}
+
+/* 선택 항목 스타일 */
+.tboard-input select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+/* 라디오 버튼과 체크박스 스타일 */
+.tboard-input input[type="radio"],
+.tboard-input input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* 첨부파일 설명 스타일 */
+.tboard-atach span {
+    font-size: 12px;
+    color: #666;
+    margin-left: 5px;
+}
+
+/* 각 요소의 호버 및 포커스 상태 */
+.tboard-input input:focus,
+.tboard-input select:focus,
+.tboard-input textarea:focus {
+    border-color: #0061F2;
+    outline: none;
+}
+
+.tboard-input input[type="file"]:focus {
+    border-color: #0061F2;
+}
+
+/* 버튼 스타일 (첨부파일) */
+.tboard-input input[type="file"] {
+    padding: 5px;
+}
+
+/* 작은 폰트 스타일 */
+.tboard-label,
+.tboard-atach span {
+    font-size: 12px;
+}
+
+/* 레이아웃 정리 */
+.tboard-row .tboard-item {
+    margin-top: 5px;
+}
+/* 첨부파일 레이아웃 */
+.tboard-row {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+/* 레이블 스타일 */
+.tboard-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    width: 120px;
+    margin-right: 15px;
+}
+
+/* 첨부파일 입력 필드 */
+.tboard-atach {
+    display: flex;
+    flex-direction: column; /* 세로 방향으로 정렬 */
+    align-items: flex-start;
+    gap: 8px; /* 항목 간 간격 */
+}
+
+/* 첨부파일 입력 버튼 스타일 */
+.tboard-atach input[type="file"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.tboard-atach input[type="file"]:hover {
+    border-color: #0061F2;
+    background-color: #f4f9ff;
+}
+
+.tboard-atach input[type="file"]:focus {
+    outline: none;
+    border-color: #0061F2;
+}
+
+/* 첨부파일 용량과 파일 유형 정보 */
+.tboard-item {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+.tboard-item .file-info {
+    font-size: 12px;
+    color: #666;
+    display: block; /* 각각 한 줄씩 표시 */
+}
+
+/* 첨부파일명 */
+.tboard-atach .file-name {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+    padding-left: 10px;
+    color: #0061F2;
+}

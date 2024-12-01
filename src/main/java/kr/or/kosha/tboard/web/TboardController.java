@@ -15,6 +15,8 @@
  */
 package kr.or.kosha.tboard.web;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,6 +28,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.or.kosha.tboard.boot.web.DataUtil;
 import kr.or.kosha.tboard.boot.web.TboardResponse;
@@ -70,7 +74,6 @@ public class TboardController {
 	 * @return "egovSampleList"
 	 * @exception Exception
 	 */
-	@CrossOrigin(origins = "http://127.0.0.1:5500")  // 특정 도메인에서의 요청만 허용
 	@PostMapping(value = "/processTboard.do")
 	public ResponseEntity<TboardResponse> selectSampleList(ModelMap model, HttpServletRequest requset) throws Exception {
 		
@@ -109,6 +112,96 @@ public class TboardController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	@PostMapping(value = "/processMultiTboard2.do")
+	public ResponseEntity<TboardResponse> selectSampleList1(ModelMap model, HttpServletRequest requset) throws Exception {
+		
+		TboardUtil tboardUtil = new TboardUtil();
+		TboardResponse response = new TboardResponse();
+		
+		try {
+			
+			System.out.println("===============================start");
+			DataUtil dataUtil = tboardService.process(tboardUtil);
+			System.out.println( dataUtil.getCode() );
+			System.out.println("===============================end");
+			
+			
+			response.setRtnData(dataUtil.getData());
+			
+		} catch (CustomException e) {
+			response.setRtnCode(e.getErrorCode());
+			response.setRtnMsg(e.getErrorMessage());
+			response.setRtnSubCode(e.getErrorSubCode());
+			response.setRtnSubMsg(e.getErrorSubMessage());
+		} catch (Exception e) {
+			response.setRtnCode("500");
+			response.setRtnMsg("Internal Server Error");
+			response.setRtnSubCode("-1");
+			response.setRtnSubMsg("비정상오류 발생");
+		}
+
+		System.out.println( response.getRtnCode() );
+		System.out.println( response.getRtnMsg() );
+		System.out.println( response.getRtnSubCode() );
+		System.out.println( response.getRtnSubMsg() );
+		
+		
+		System.out.println("===============================end2");
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 	
+	@PostMapping(value = "/processMultiTboard.do")
+	public ResponseEntity<TboardResponse> uploadFiles(
+			@RequestParam(value = "C09", required = false) List<MultipartFile> files,  // 파일 받기
+	        @RequestParam("_JSON") String jsonData           ) throws Exception {
+		
+		TboardResponse response = new TboardResponse();
+		
+		try {
+			
+			System.out.println("===============================start");
+			System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			
+			System.out.println("Received JSON Data: " + jsonData);
+	        for (MultipartFile file : files) {
+	            System.out.println("Uploaded file: " + file.getOriginalFilename());
+	            // 파일 저장 로직 추가
+	        }
+	        
+	        System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			System.out.println("processMultiTboard");
+			
+			System.out.println("===============================end");
+			
+			
+		} catch (CustomException e) {
+			response.setRtnCode(e.getErrorCode());
+			response.setRtnMsg(e.getErrorMessage());
+			response.setRtnSubCode(e.getErrorSubCode());
+			response.setRtnSubMsg(e.getErrorSubMessage());
+		} catch (Exception e) {
+			response.setRtnCode("500");
+			response.setRtnMsg("Internal Server Error");
+			response.setRtnSubCode("-1");
+			response.setRtnSubMsg("비정상오류 발생");
+		}
+
+		System.out.println( response.getRtnCode() );
+		System.out.println( response.getRtnMsg() );
+		System.out.println( response.getRtnSubCode() );
+		System.out.println( response.getRtnSubMsg() );
+		
+		
+		System.out.println("===============================end2");
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 
 }
+

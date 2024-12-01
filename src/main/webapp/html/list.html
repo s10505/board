@@ -11,7 +11,6 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- 한글 로케일 -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ko.js"></script>
-
     <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.min.js"></script>
 
     
@@ -25,7 +24,19 @@
     <!-- <script type="text/javascript" src="/js/sample-data.js" charset="UTF-8"></script> -->
     <script type="text/javascript" src="/js/tboard-common.js" charset="UTF-8"></script>
     <script type="text/javascript" src="/js/tboard-init.js" charset="UTF-8"></script>
-    
+
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+
+        
+    <link href="/html/tboard.css" rel="stylesheet" />
+
+    <form action="/tboard/processMultiTboard.do" method="post" enctype="multipart/form-data">
+        <input type="file" name="C09" multiple>
+        <input type="text" name="_JSON" value="someData">
+        <button type="submit">Submit</button>
+    </form>
+
 
     <title>통합게시판 검색</title>
     <style>
@@ -158,6 +169,7 @@
     </style>
 </head>
 <body>
+<div class="bbs-root" id="quill">
 
 <div class="bbs-root" data-tboard-id="tboard-root">
    
