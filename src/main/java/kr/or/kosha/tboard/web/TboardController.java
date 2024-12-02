@@ -15,17 +15,24 @@
  */
 package kr.or.kosha.tboard.web;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.HttpHeaders;
 
 import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -203,5 +210,76 @@ public class TboardController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
+	
+	
+
+	@GetMapping(value = "/fileDownload.do")
+	public ResponseEntity<byte[]> uploadFiles(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
+		TboardResponse tresponse = new TboardResponse();
+
+        // 메모리에서 ZIP 파일을 만들기 위한 ByteArrayOutputStream 사용
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        
+        
+		try {
+		    
+			String rootPath = "/svc/stdtboard";
+			String bbsId = "/20241202AAA";
+			
+			// 파일 생성
+	        String[] filesToZip = {
+	            "/aaa.pptx",
+	            "/bbb.pptx"
+	        };
+
+	        
+	        try (ZipOutputStream zipOut = new ZipOutputStream(byteArrayOutputStream)) {
+	            for (String filePath : filesToZip) {
+	                File file = new File(rootPath + bbsId + filePath);
+	                if (file.exists() && file.isFile()) {
+	                    try (FileInputStream fileIn = new FileInputStream(file)) {
+	                        // 파일을 ZIP에 추가
+	                        zipOut.putNextEntry(new ZipEntry(file.getName()));
+
+	                        byte[] buffer = new byte[1024];
+	                        int length;
+	                        while ((length = fileIn.read(buffer)) > 0) {
+	                            zipOut.write(buffer, 0, length);
+	                        }
+
+	                        zipOut.closeEntry();
+	                    }
+	                } else {
+	                    System.out.println("파일이 존재하지 않거나 디렉토리입니다: " + filePath);
+	                }
+	            }
+	        }
+
+
+			
+			
+		} catch (CustomException e) {
+			tresponse.setRtnCode(e.getErrorCode());
+			tresponse.setRtnMsg(e.getErrorMessage());
+			tresponse.setRtnSubCode(e.getErrorSubCode());
+			tresponse.setRtnSubMsg(e.getErrorSubMessage());
+		} catch (Exception e) {
+			tresponse.setRtnMsg("Internal Server Error");
+			tresponse.setRtnSubCode("-1");
+			tresponse.setRtnSubMsg("비정상오류 발생");
+		}
+		
+        // ZIP 파일을 메모리에서 읽어들인 후, 클라이언트에게 바로 전송
+        byte[] zipBytes = byteArrayOutputStream.toByteArray();
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=files.zip")
+                .header(HttpHeaders.CONTENT_TYPE, "application/zip")
+                .body(zipBytes);
+
+		
+
+	}
 }
 
