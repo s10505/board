@@ -1,3 +1,5 @@
+let quillEditor = undefined;
+
 (function(){
 
 
@@ -15,7 +17,24 @@
 
                 this.cmp[_viewType] = this.cmp[_viewType] ||{};
 
-                this.cmp[_viewType][artclNo] = new WriteComponent(_artclInfo);
+                let cmpKey = artclNo;
+                let component = null;
+                let isNewCmp = true;
+                if (_artclInfo.cpt.indexOf("default") > -1) {
+                    cmpKey = _artclInfo.cpt;
+                    component = this.cmp[_viewType][cmpKey];
+                    if (component) {
+                        isNewCmp = false;
+                    }
+                }
+
+                if (isNewCmp) {
+                    this.cmp[_viewType][cmpKey] = new WriteComponent(_artclInfo);
+                }
+                else {
+                    component[cmpKey](_artclInfo);
+                }
+
             }
         }
 
@@ -44,8 +63,9 @@ console.log(" ....rtnData " , rtnData);
             this.node = null;
             this.editor = null;
             this.elememnts = window.koshaTboard.tBoardElemProto.default.elements.writeType1;
-            
-            this.config = {};
+
+            this.formEl  = {};
+            this.config  = {};
             this.init();
         }
 
@@ -59,6 +79,11 @@ console.log(" ....rtnData " , rtnData);
                 //노드 설정
                 this[ this.type ]();
             }
+        }
+
+        addConfig() {
+            debugger;
+
         }
 
         //기본값 세팅
@@ -208,6 +233,62 @@ debugger;
             return rtnData;
         }
 
+        
+        defaultType2(_artclInfo) {
+
+            let artclInfo = _artclInfo || this.artclInfo;
+debugger;
+            if (Object.keys(this.formEl).length < 1) {
+                let searchEls = this.node.querySelectorAll(`[data-tboard-fld-id]`);
+                searchEls.forEach( el => {
+                    this.formEl[ el.dataset.tboardFldId ] = el;
+                    if ("SELECT" === this.formEl[ el.dataset.tboardFldId ].nodeName) {
+                        this.formEl[ el.dataset.tboardFldId ].options.length = 0;
+                    }
+                    else if ("INPUT" === this.formEl[ el.dataset.tboardFldId ].nodeName) {
+                        this.formEl[ el.dataset.tboardFldId ].value = "";                        
+                    }
+                });
+            }
+            //설정정보 추가
+            this.config[ artclInfo.artclNo ] = artclInfo;
+
+
+            if (artclInfo.src) {
+                this.formEl.category.dataset.tboardArtclNo = artclInfo.artclNo;
+                
+                let codeList = bbsComCode.getCodeList(artclInfo.cct, artclInfo.src);
+                Object.keys(codeList).forEach( _key => {
+                    let code = _key;
+                    let name = codeList[_key];
+                    let option = document.createElement("option");
+    
+                    option.value = code;
+                    option.textContent = name;
+                    this.formEl.category.appendChild(option);
+                });
+                return;
+            }
+
+debugger;
+            let option = document.createElement("option");
+            option.value = artclInfo.artclNo;
+            option.textContent = artclInfo.artclNo;
+
+            this.formEl.searchOption.appendChild(option);
+                
+
+            if (artclInfo.all === "Y") {
+                let option = document.createElement("option");
+                option.value = "all";
+                option.textContent = "전체";               
+                
+                this.formEl.searchOption.prepend(option);
+            }
+            debugger;
+            console.log("defaultType2");
+        }
+
 
         inputType1() {
             console.log("inputType1");
@@ -227,7 +308,7 @@ debugger;
             this.editor = new Quill(procNode, {
                 theme: 'snow'  // Quill 테마
             });
-
+            quillEditor = this.editor;
             //초기값
             if (this.artclInfo.init) {
                 //this.editor.setText(this.artclInfo.init);
@@ -799,6 +880,7 @@ debugger;
         async init() {
             log.log("pos3");
 
+            this.renderViewWrite();
 
             //기본권한체크
             //this.renderBbsView();
@@ -820,8 +902,8 @@ debugger;
             //debugger;
             //this.tboardViewEvent = new TboardViewEvent(this.viewType, this.tboardViewManager.bbsView);
             
-            this.renderViewWrite();
 
+return;
             let self = this;
             
             
@@ -890,6 +972,7 @@ return;
 
         }
 
+        
         renderViewWrite() {
             this.view.write = window.koshaTboard.tBoardElemProto.default.elements.view.write.cloneNode(true);
 
@@ -920,6 +1003,15 @@ return;
                 },
                 "C09": {
                     title: "첨부"
+                },
+                "C10": {
+                    title: "검색"
+                },
+                "C11": {
+                    title: "제목"
+                },
+                "C12": {
+                    title: "내용"
                 }
             }
 
@@ -971,6 +1063,19 @@ return;
                         size: 10,
                         cnt: 5                        
                     }
+                },
+                "C10": {
+                    cpt: "defaultType2",
+                    src: "C0001",
+                    cct: "acm"
+                },
+                "C11": {
+                    cpt: "defaultType2",
+                    all: "Y"
+                },
+                "C12": {
+                    cpt: "defaultType2",
+                    src: ""
                 }
             };
 
@@ -983,7 +1088,10 @@ return;
                 6: "C07",
                 7: "C04",
                 8: "C05",
-                9: "C09"
+                9: "C09",
+                10: "C10",
+                11: "C11",
+                12: "C12"
             }
 
 
@@ -995,15 +1103,34 @@ return;
                 artclInfo.artclNm = atrclNoInfo[artclNo].title;
 
                 this.bbsCmp.build("writeType1",  artclInfo);
-
-                let fldKey = this.bbsCmp.cmp.writeType1[ artclNo ].node.dataset.tboardFldType;
-                let grpKey = fldKey.split(".")[0];
-
-                let grpNode = this.view.write.querySelector(`[data-tboard-fld-grp="${grpKey}"]`);
-                grpNode.appendChild(this.bbsCmp.cmp.writeType1[ artclNo ].node);
                 
                 //this.bbsCmp.cmp[ artclNo ].node;
             });
+
+            
+debugger;
+
+            Object.keys(this.bbsCmp.cmp.writeType1).forEach( _cmpKey => {
+                // let cmpKey = artclNo;
+                // if (artclInfo.cpt.indexOf("default") > -1) {
+                //     cmpKey = _artclInfo.cpt;
+                // }
+    
+    
+                let fldKey = this.bbsCmp.cmp.writeType1[ _cmpKey ].node.dataset.tboardFldType;
+                let grpKey = fldKey.split(".")[0];
+    
+                let grpNode = this.view.write.querySelector(`[data-tboard-fld-grp="${grpKey}"]`);
+
+
+                grpNode.appendChild( this.bbsCmp.cmp.writeType1[ _cmpKey ].node );
+
+            });
+
+
+
+
+
 
 
             //refresh - 다시 만들기
@@ -1034,7 +1161,7 @@ return;
             //     //this.bbsCmp.cmp[ artclNo ].node;
             // });
 
-            
+            debugger;
             //등록화면 추가
             let rootNode = document.querySelector('[data-tboard-id="tboard-root"]');
             while(rootNode.firstChild) {
