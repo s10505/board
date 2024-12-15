@@ -8,21 +8,24 @@ public class Test {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		JSONObject rtnDataJson = new JSONObject();		
-
-		
+		JSONObject jsonRtnData  = new JSONObject();
 		JSONObject jsonPostInfo = new JSONObject();
-		JSONArray jsonPostList = addToJSONArray(jsonPostInfo);;
-		
-		jsonPostInfo.put("pstNo", "xxxx");
 		
 		
 		
 		
-		rtnDataJson.put("result", jsonPostList);
+		
+		jsonPostInfo.put("pstNo", "data");
 		
 		
-		System.out.println(rtnDataJson.toJSONString());
+		
+		
+		
+		
+		jsonRtnData.put("result", addToJSONArray(jsonPostInfo));
+		
+		
+		System.out.println(jsonRtnData.toJSONString());
 	}
 
 	
