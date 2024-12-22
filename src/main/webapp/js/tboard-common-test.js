@@ -19,8 +19,6 @@ for(let i = 0; i < ctlEntries.length; i++) {
     let [crntKey, objCrnt] = ctlEntries[i];
     let [nextKey, objNext] = ctlEntries[i + 1] || ["", ""];
 
-debugger;
-
     objCrnt.artclNo = crntKey;
     let objAddInfo = chkAddRow( objCrnt, objNext );
 

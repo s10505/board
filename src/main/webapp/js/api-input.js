@@ -1,3 +1,43 @@
+/*
+koshaTboard.init(
+bbsId: ""
+, chl: ""
+, fixSrchParam {
+    "항목번호": "항목값"
+  }
+, initSrchParam {
+    "항목번호": "항목값"
+  }
+    ,listSort : []
+);
+init 
+- 입력값 설정
+- initParam : {
+
+}
+- fixParam : {
+    "항목번호" : "항목값"
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 let searchCnd = {
     bbsInfo: {
@@ -100,18 +140,17 @@ let downCnd = {
 
 
 //fileDownLoad
-let downCnd = {
+/*let downCnd = {
     result: {
         key: ""
         , data: ""
     }
-};
-
-?key="ddddd"&data:"" //30초유효
+};*/
 
 
 
 
+/*
 
 
 
@@ -152,7 +191,7 @@ let downCnd = {
 
 -> 로그인
 
--> (3)사용자아이디+게시판아이디로 redis 호출
+-> (3)사용자아이디 + 시스템코드 + 게시판아이디로 redis 호출
 
    -> (3-1)redis에 값이 있으면
 
@@ -186,3 +225,4 @@ let downCnd = {
 
 
 
+*/

@@ -270,7 +270,7 @@ debugger;
                 return;
             }
 
-debugger;
+
             let option = document.createElement("option");
             option.value = artclInfo.artclNo;
             option.textContent = artclInfo.artclNo;
