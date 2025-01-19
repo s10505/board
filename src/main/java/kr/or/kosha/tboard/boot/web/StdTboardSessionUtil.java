@@ -24,7 +24,7 @@ public class StdTboardSessionUtil {
 	private SessionLink sessionLink;
 	private HttpServletRequest request;
 	
-	private String SESSION_TYPE = "token";
+	private final String SESSION_TYPE = "token";
 	private BoardInfo boardInfo = new BoardInfo();
 	private UserInfo  userInfo  = new UserInfo();
 	private StdTboardOptionUtil optUtil;    //StdBbsPrmsManager 

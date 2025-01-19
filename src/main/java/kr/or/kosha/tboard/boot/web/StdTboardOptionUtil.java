@@ -11,18 +11,18 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class StdTboardOptionUtil{
-	private final String BASIC_KEY = "basic";
-	private final String REPLY_KEY = "reply";
-	private final String COMMENT_KEY = "comment";
-	private final String COMMENT_REPLY_KEY = "commentReply";
-	private final String FILE_KEY = "file";
-	private final String MANAGE_KEY = "manage";
+	private static final String BASIC_KEY = "basic";
+	private static final String REPLY_KEY = "reply";
+	private static final String COMMENT_KEY = "comment";
+	private static final String COMMENT_REPLY_KEY = "commentReply";
+	private static final String FILE_KEY = "file";
+	private static final String MANAGE_KEY = "manage";
 	
-	private final String BOARD_TYPE_KEY = "boardType";
-	private final String VIEW_COUNT_KEY = "viewCount";
-	private final String NOTICE_POST_KEY = "notice";
-	private final String SECRET_POST_KEY = "secret";
-	private final String POST_API_KEY   = "postApi";
+	private static final String BOARD_TYPE_KEY = "boardType";
+	private static final String VIEW_COUNT_KEY = "viewCount";
+	private static final String NOTICE_POST_KEY = "notice";
+	private static final String SECRET_POST_KEY = "secret";
+	private static final String POST_API_KEY   = "postApi";
 	
 	JSONObject bbsOption = new JSONObject();
 	

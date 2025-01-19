@@ -37,7 +37,7 @@ public class DataUtil {
 	public JSONObject getData() {
 		return data;
 	}
-	public void setData(JSONObject Data) {
-		this.data = Data;
+	public void setData(JSONObject data) {
+		this.data = data;
 	}
 }

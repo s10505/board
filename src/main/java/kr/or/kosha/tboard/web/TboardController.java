@@ -18,6 +18,7 @@ package kr.or.kosha.tboard.web;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +35,13 @@ import org.egovframe.rte.fdl.property.EgovPropertyService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -75,6 +78,7 @@ import kr.or.kosha.tboard.service.TboardService;
  *  Copyright (C) by MOPAS All right reserved.
  */
 
+@CrossOrigin(origins = "http://127.0.0.1:4098")  // 특정 도메인에서만 허용
 @Controller
 @RequestMapping(value = "/tboard")
 public class TboardController {
@@ -86,6 +90,142 @@ public class TboardController {
 	/** EgovPropertyService */
 	@Resource(name = "propertiesService")
 	protected EgovPropertyService propertiesService;
+	
+	
+	
+	
+	
+	/**
+	 * 글 목록을 조회한다. (pageing)
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@CrossOrigin
+	@GetMapping(value = "/test2.do")
+	public ResponseEntity<JSONObject> test2(ModelMap model, HttpServletRequest request) throws Exception {
+
+        try {
+        	
+            ObjectMapper objectMapper = new ObjectMapper();
+            StdTboardDataUtil stdUtil = new StdTboardDataUtil();
+            
+    		JSONObject rtnData = new JSONObject();
+    		JSONArray jsonPostList = new JSONArray();
+            for (int i = 1; i <= 100; i++) {
+                JSONObject jsonPost = new JSONObject();
+                jsonPost.put("pstId", "b" + String.format("%06d", i));
+                jsonPost.put("pstNm", "제목" + i);
+                jsonPost.put("pstCn", "내용" + i);
+                jsonPost.put("wrtrNm", "홍길동" + i);
+                jsonPost.put("wrtrId", "kydak733@naver.com" + i);
+                jsonPost.put("rnum", (long)i);
+                jsonPostList.add(jsonPost);
+            }
+            
+    		JSONArray jsonArtclList = new JSONArray();
+            for (int i = 1; i <= 100; i++) {
+                for (int j = 1; j <= 5; j++) {
+                	JSONObject jsonArtcl = new JSONObject();
+                	jsonArtcl.put("pstId", "b" + String.format("%06d", i));
+                	jsonArtcl.put("artclNo"   , "artclNo" + j);
+                	jsonArtcl.put("artclValue", "artclValue" + j);
+                	jsonArtclList.add(jsonArtcl);	
+                }
+            }
+            
+    		JSONArray jsonFileList = new JSONArray();
+            for (int i = 1; i <= 100; i++) {
+                for (int j = 1; j <= 3; j++) {
+                	JSONObject jsonFile = new JSONObject();
+                	jsonFile.put("pstId", "b" + String.format("%06d", i));
+	                if ( i % 2 == 0) {
+	                	jsonFile.put("artclNo", "atch" + j);
+	                	jsonFile.put("artclValue", "Y");
+                	}
+                	else {
+                		jsonFile.put("artclNo", "atch" + j);
+                		jsonFile.put("artclValue", "N");
+                	}
+	                jsonFileList.add(jsonFile);	
+                }
+            }
+
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+            
+            
+            // pstId를 기준으로 jsonArtclList, jsonFileList를 매핑
+            Map<String, ArrayList<JSONObject>> artclMap = new HashMap<>();
+
+            // jsonArtclList에서 pstId별로 grouping
+            this.convertJSONArrayToList(jsonArtclList).stream()
+            .forEach(json -> {
+                
+				String pstId = json.get("pstId").toString();
+                artclMap.computeIfAbsent(pstId, k -> new ArrayList<JSONObject>()).add(json);
+            });
+            
+            this.convertJSONArrayToList(jsonFileList).stream()
+            .forEach(json -> {
+                String pstId = (String) json.get("pstId");
+                artclMap.computeIfAbsent(pstId, k -> new ArrayList<JSONObject>()).add(json);
+            });
+            
+            
+            // jsonPostList에서 각 요소에 artclNo, file 데이터를 추가
+            this.convertJSONArrayToList(jsonPostList).forEach(post -> {	  
+                String pstId = (String) post.get("pstId");
+
+                List<JSONObject> artclList = artclMap.get(pstId);
+                if (artclList == null) {
+                	return;
+                }
+                
+                artclList.stream().forEach(artcl -> {
+                	post.put(artcl.get("artclNo"), artcl.get("artclValue"));
+                });
+            });
+            
+            //faq 내용
+            //gallery 썸네일 첨부파일번호
+            System.out.println(jsonPostList);
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+            System.out.println("-----------------------------------------");
+
+            
+            
+            JSONObject temp = new JSONObject();
+            
+    		temp.put("data", jsonPostList);
+    		return new ResponseEntity<>(temp, HttpStatus.OK);
+        
+        } catch (IllegalArgumentException e) {
+    		TboardResponse response = new TboardResponse();
+        	response.setRtnCode("-1");
+        	response.setRtnSubCode("-1");
+        	response.setRtnSubMsg(e.getMessage());
+    		
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+
+        return null;
+        
+        
+	
+	}
+	
+	
+	
+	
+	
 	
 	/**
 	 * 글 목록을 조회한다. (pageing)
@@ -117,8 +257,8 @@ public class TboardController {
 	        		+ "        }\r\n"
 	        		+ "    }";
 
-
 	        try {
+	        	
 	            ObjectMapper objectMapper = new ObjectMapper();
 	            StdTboardDataUtil dataUtil = objectMapper.readValue(jsonString, StdTboardDataUtil.class);
 	            System.out.println("DataUtil: " + dataUtil.getCommon().getFrontInfo());
@@ -152,6 +292,8 @@ public class TboardController {
 	                jsonPost.put("pstId", "b" + String.format("%06d", i));
 	                jsonPost.put("pstNm", "제목" + i);
 	                jsonPost.put("pstCn", "내용" + i);
+	                jsonPost.put("wrtrNm", "홍길동" + i);
+	                jsonPost.put("wrtrId", "kydak733@naver.com" + i);
 	                jsonPost.put("rnum", (long)i);
 	                jsonPostList.add(jsonPost);
 	            }
@@ -196,7 +338,8 @@ public class TboardController {
 	            // jsonArtclList에서 pstId별로 grouping
 	            this.convertJSONArrayToList(jsonArtclList).stream()
 	            .forEach(json -> {
-	                String pstId = (String) json.get("pstId");
+	                
+					String pstId = json.get("pstId").toString();
 	                artclMap.computeIfAbsent(pstId, k -> new ArrayList<JSONObject>()).add(json);
 	            });
 	            
@@ -224,6 +367,7 @@ public class TboardController {
 	            //faq 내용
 	            //gallery 썸네일 첨부파일번호
 	            System.out.println(jsonPostList);
+	            
 	            
 	            System.out.println("-----------------------------------------");
 	            System.out.println("-----------------------------------------");
@@ -472,10 +616,6 @@ public class TboardController {
 	            StdTboardOptionUtil optUtil2 = new StdTboardOptionUtil( StdTboardOptionUtil.reformat(permArray) );
 	            System.out.println("--------------------------------------------");
 	            
-	            System.out.println( optUtil.getBASIC_KEY() );
-	            System.out.println( optUtil2.getREPLY_KEY() );
-	            System.out.println( optUtil2.getCOMMENT_KEY() );
-	            
 	            
 	            System.out.println( optUtil.isBasicAdmin()  );
 	            System.out.println( optUtil.isReplyAdmin()  );
@@ -527,6 +667,9 @@ public class TboardController {
 	            else {
 	            	System.out.println("-----------------------------baisc.read false");
 	            }
+	            
+	            
+	            
 
 	        
 	        
@@ -772,6 +915,164 @@ public class TboardController {
 		
 
 	}
+	
+
+   public static String maskName(String name) {
+
+        // 기본 형식에 맞지 않는 이름의 경우, 파라미터 값을 그대로 반환합니다.
+        if (name == null || name.length() < 2) {
+            return name;
+        }
+
+        int length = name.length();
+        StringBuilder maskedName = new StringBuilder(name);
+
+        // [CASE1] 이름이 2자리 인 경우 => 첫 번째 문자에 대해 마스킹
+        if (length == 2) {
+            maskedName.setCharAt(0, '*');
+        }
+        // [CASE2] 이름이 3자리 인 경우 => 두 번째 문자에 대해 마스킹
+        else if (length == 3) {
+            maskedName.setCharAt(1, '*');
+        }
+        // [CASE3] 이름이 4자리 인 경우 => 두 번째, 세 번째 문자에 대해 마스킹
+        else if (length == 4) {
+            maskedName.setCharAt(1, '*');
+            maskedName.setCharAt(2, '*');
+        }
+        // [CASE4] 이름이 5자리 이상인 경우 => 첫 번째와 마지막 문자를 제외한 모든 문자에 대해 마스킹
+        else if (length == 5) {
+            maskedName.setCharAt(1, '*');
+            maskedName.setCharAt(2, '*');
+            maskedName.setCharAt(3, '*');
+        }
+        // [CASE5] 이름이 5자리 이상인 경우 => 첫 번째와 마지막 문자를 제외한 모든 문자에 대해 마스킹
+        else {
+            for (int i = 1; i < length - 1; i++) {
+                maskedName.setCharAt(i, '*');
+            }
+        }
+
+        return maskedName.toString();
+    }
+   
+
+   /**
+    * 휴대폰 번호에 대한 마스킹을 수행합니다.
+    *
+    * @param phoneNumber {String}  마스킹 이전 휴대폰 번호
+    * @return {String} 마스킹 된 휴대폰 번호
+    */
+   public static String maskPhoneNumber(String phoneNumber) {
+
+       // 기본 형식에 맞지 않는 핸드폰 번호의 경우, 파라미터 값을 그대로 반환합니다.
+       if (phoneNumber == null || phoneNumber.length() < 10) {
+           return phoneNumber;
+       }
+
+       StringBuilder maskedPhoneNumber = new StringBuilder(phoneNumber);
+       int length = phoneNumber.length();
+
+       // [CASE1] 핸드폰 번호의 하이픈이 포함된 경우
+       if (phoneNumber.contains("-")) {
+           String[] parts = phoneNumber.split("-");
+           if (parts.length == 3) {
+
+               // [CASE2-1] 가운데 번호가 3자리인 경우
+               if (parts[1].length() == 3) {
+                   maskedPhoneNumber.replace(4, 7, "***");     // 가운데 3자리를 마스킹
+               }
+               // [CASE2-2] 가운데 번호가 4자리인 경우
+               else if (parts[1].length() == 4) {
+                   maskedPhoneNumber.replace(4, 8, "****");    // 가운데 4자리를 마스킹
+               }
+           }
+
+       }
+       // [CASE2] 핸드폰 번호의 하이픈이 포함되지 않은 경우
+       else {
+           // [CASE2-1] 가운데 번호가 3자리인 경우
+           if (length == 10) {
+               maskedPhoneNumber.replace(3, 6, "***");     // 가운데 3자리를 마스킹
+           }
+           // [CASE2-2] 가운데 번호가 4자리인 경우
+           else if (length == 11) {
+               maskedPhoneNumber.replace(3, 7, "****");    // 가운데 4자리를 마스킹
+           }
+       }
+       return maskedPhoneNumber.toString();
+   }
+   
+   
+   /**
+    * 이메일 주소에 대한 마스킹을 수행합니다.
+    *
+    * @param email {String} : 마스킹 이전 이메일 주소
+    * @return {String} 마스킹 된 이메일 주소
+    */
+   public static String maskEmail(String email) {
+
+       // 기본 형식에 맞지 않는 이메일 주소의 경우, 파라미터 값을 그대로 반환합니다.
+       if (email == null || !email.contains("@")) {
+           return email;
+       }
+
+       String[] parts = email.split("@");
+       String idPart = parts[0];           // 아이디
+       String domainPart = parts[1];       // 이메일 도메인
+
+       // 기본 형식에 맞지 않는 이메일 주소의 경우, 파라미터 값을 그대로 반환합니다.
+       if (idPart.length() <= 3) {
+           return email;
+       }
+
+       StringBuilder maskedEmail = new StringBuilder();
+       maskedEmail.append(idPart.substring(0, 3));
+       for (int i = 3; i < idPart.length(); i++) {
+           maskedEmail.append('*');
+       }
+       maskedEmail.append('@').append(domainPart);
+
+       return maskedEmail.toString();
+   }
+   
+   // 게시글 수정 함수
+   public boolean canEdit(JSONObject jsonPstInfo, String userId) {
+	   boolean isAdmin = false;
+       // 관리자는 모든 게시글을 수정할 수 있다.
+       if (isAdmin) {
+           return true;
+       }
+
+       // 사용자가 자신이 작성한 게시글만 수정할 수 있다.
+       return "".equals(userId);
+   }
+   
+   
+   private static final String IMAGE_PATH = "/svc/stdtboard/20241202AAA/aaaa.png";  // 실제 이미지 경로로 수정
+   @GetMapping("/api/get-image")
+   public ResponseEntity<InputStreamResource> getImage() throws IOException {
+       // 이미지 파일을 InputStream으로 읽기
+       FileInputStream fileInputStream = new FileInputStream(IMAGE_PATH);
+       
+       // 스트리밍된 이미지를 클라이언트에게 반환
+       InputStreamResource resource = new InputStreamResource(fileInputStream);
+
+       // 응답에 이미지 스트림을 포함하여 반환
+       return ResponseEntity.ok()
+               .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=image.jpg")
+               .contentType(MediaType.IMAGE_JPEG)
+               .body(resource);
+   }
+
+//   
+//   const tboard = {
+//	   token: null,
+//	   setToken: function(newToken) {
+//	     this.token = newToken;
+//	     console.log("토큰이 설정되었습니다:", newToken);
+//	   }
+//	 };
 }
 
 
