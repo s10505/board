@@ -8841,13 +8841,65 @@
         sort() {
         }
 
-		commonAlert(msg, callback) {
-			alert(msg);
-			
-			if (typeof callback === "function") {
-				callback();
-			}
+		commonAlert(_msg, _callback) {            
+            let MSG_UUID = `${tboardUtil.uuidGen()}`;
+            let callback = _callback;
+            let result = {
+                type: ""                
+            }
+            let dialog = `<div class="popup" data-tboard-msg-id=${MSG_UUID}>
+                <section class="normal" tabindex="0" role="dialog" aria-modal="true" aria-labelledby="modal-title-51cf5f25-9a31-4f65-98c0-1accce90aef1">
+                    <h2 id="modal-title" class="title">안내</h2>
+                    <div class="contents">
+                        <div>
+                            <p tboard-msg-btn-id="message">삭제 하시겠습니까?</p>
+                        </div>
+                    </div>
+                    <footer>
+                        <button type="button" tboard-msg-btn-id="cancel">취소</button>
+                        <button type="button" tboard-msg-btn-id="confirm" class="submit">확인</button>
+                    </footer>
+                    <button type="button" class="close" tboard-msg-btn-id="cancel"><span>닫기</span></button>
+                </section>
+                <button type="button" class="background" tboard-msg-btn-id="cancel"><span>닫기</span></button>
+            </div>`;
+
+            let template = document.createElement("template");
+            template.innerHTML = dialog;
+            let bbsRoot = document.querySelector(`[${this.tboardInstance.tagMap.dataset.tbPageId}="${this.tboardInstance.uuid}"`);
+            while (template.firstChild) {
+                bbsRoot.appendChild( template.firstChild );
+            }
+            let msgDialog = document.querySelector(`data-tboard-msg-id=[${MSG_UUID}]`);
+
+            document.querySelector('[tboard-msg-btn-id="message"]').textContent = _msg || "";
+            const confirmButtons = document.querySelector('[tboard-msg-btn-id="confirm"]');
+            const cancelButtons = document.querySelectorAll('[tboard-msg-btn-id="cancel"]');
+            confirmButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    if (typeof callback === "function") {
+                        result.type = "confirm";
+                        callback(result);
+                    }
+                });
+            });
+
+            
+            cancelButtons.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    if (msgDialog && msgDialog instanceof HTMLElement) {
+                        msgDialog.remove();
+                    }
+                    if (typeof callback === "function") {
+                        result.type = "cancel";
+                        callback(result);
+                    }
+                });
+            });
+
 		}
+
+
 
         numFormat(value) {
 			if (!value) {

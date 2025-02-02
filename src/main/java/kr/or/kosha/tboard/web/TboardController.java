@@ -93,6 +93,99 @@ public class TboardController {
 	
 	
 	
+
+	
+	/**
+	 * 글 목록을 조회한다. (pageing)
+	 * @param searchVO - 조회할 정보가 담긴 SampleDefaultVO
+	 * @param model
+	 * @return "egovSampleList"
+	 * @exception Exception
+	 */
+	@SuppressWarnings("unchecked")
+	@CrossOrigin
+	@GetMapping(value = "/test3.do")
+	public ResponseEntity<JSONObject> test3(ModelMap model, HttpServletRequest request) throws Exception {
+
+        try {
+        	
+            ObjectMapper objectMapper = new ObjectMapper();
+            StdTboardDataUtil stdUtil = new StdTboardDataUtil();
+            
+            
+            JSONArray array = new JSONArray();
+            JSONObject object = new JSONObject();
+            object = new JSONObject();
+            object.put("artclNo", "D00000001");
+            object.put("artclData", "20180111|20180201");
+            array.add(object);
+            object = new JSONObject();
+            object.put("artclNo", "D00000002");
+            object.put("artclData", "201801|201802");
+            array.add(object);
+            object = new JSONObject();
+            object.put("artclNo", "D00000003");
+            object.put("artclData", "01|04");
+            array.add(object);
+            object = new JSONObject();
+            object.put("artclNo", "D00000004");
+            object.put("artclData", "001|003");
+            array.add(object);
+            object = new JSONObject();
+            object.put("artclNo", "D00000005");
+            object.put("artclData", "1180001|1180002");
+            array.add(object);
+            
+            JSONObject inputData = new JSONObject();
+            inputData.put("list", array);
+
+            
+            JSONArray inputArray = (JSONArray)inputData.get("list");
+            inputArray.stream().forEach(obj -> {
+            	System.out.println( obj );
+            	
+            	String artclData = ((JSONObject)obj).containsKey("artclData") ? ((JSONObject)obj).get("artclData").toString() : "";
+            	String artclType = ((JSONObject)obj).containsKey("artclType") ? ((JSONObject)obj).get("artclType").toString() : "";
+
+            	//01. 화면에서 넘어온 타입(기간, 체크) 체크
+            	if (artclType.equals("period") ) {
+            		JSONObject objInput = new JSONObject();
+            		String[] strSplit = artclData.split("|");
+            		objInput.put("strt_dt1", strSplit[0]);
+            		objInput.put("end_dt1", strSplit[1]);
+            	}
+            	else if (artclType.equals("check") ) {
+                	String[] strSplit = artclData.split("|");
+            		JSONArray arrTemp = new JSONArray(); 
+            		for (String str : strSplit) {
+            			arrTemp.add(str);
+            		}
+            	}
+            	
+            	
+            	System.out.println( "artclData : " + artclData );
+            });
+            
+            
+            System.out.println("inputData : " + inputData.toJSONString());
+            
+    		return new ResponseEntity<>(null, HttpStatus.OK);
+        
+        } catch (IllegalArgumentException e) {
+    		TboardResponse response = new TboardResponse();
+        	response.setRtnCode("-1");
+        	response.setRtnSubCode("-1");
+        	response.setRtnSubMsg(e.getMessage());
+    		
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+	}
+	
+	
+	
 	
 	
 	/**

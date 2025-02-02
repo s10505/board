@@ -556,8 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         moreCommnet() {
             debugger;
-            commentDatas2;
-
+            search();
         }
 
     };
@@ -565,6 +564,82 @@ document.addEventListener('DOMContentLoaded', () => {
     let commentComp = {editEl: document.querySelector(".comment-form")};
     let cmpnMng = new ComponentManager();
 });
+
+
+async function search() {
+    try {
+        console.log("search start");
+    
+        let result = await handleEvent();
+        
+        console.log("search end");
+        return result;
+    }
+    catch(error) {
+        console.log(error);
+    }
+    
+}
+
+async function handleEvent() {
+    console.log("handleEvent start");
+    try {
+        let result = await searchPstList();
+        
+        console.log("handleEvent end", result);
+        return "";
+    }
+    catch(error) {
+        console.log(error);
+    }
+}
+
+async function searchPstList() {
+    console.log("searchPstList start");
+    //try {
+        let result = await basicAccess();
+
+        console.log("searchPstList end", result);
+        return result;
+    //}
+    //catch(error) {
+      //  console.log(error);
+    //}
+}
+
+async function basicAccess() {
+    console.log("basicAccess start");
+    let result = callAjax();
+
+    console.log("basicAccess end", result);
+    return result;
+}
+
+let flag = true;
+async function callAjax() {
+    return new Promise( (resolve, reject) => {
+        if (flag) {
+            setTimeout(()=> {
+                console.log("success");
+                //resolve("success");
+                //return;
+                
+                console.log("error");
+                reject("error");
+                return;
+                
+            }, 1000)
+            
+        }
+    });    
+}
+
+
+
+
+
+
+
 
 
 
@@ -684,4 +759,5 @@ let commentDatas = [
       "wrtrNm": "김철수"        
     }
   ]
+  
   
