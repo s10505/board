@@ -1623,10 +1623,6 @@
                 return false;
             }
 
-            isThumbArtclNo() {
-                return "E080200001";
-            }
-
             getDefaultArtcl(_type) {
                 let type = _type || "default";
                 let arrArtcl = {
@@ -2337,16 +2333,16 @@
                 //조회조건 컴포넌트 생성/등록
                 this.search = JSON.parse(JSON.stringify(this.user.ctl.search));//제어정보
                 //컴포넌트 객체 생성
-                let cmpSortSeq = Object.keys(this.search.sort).sort((a, b) => Number(a) - Number(b));
-                cmpSortSeq.forEach(_key => {
+                Object.keys(this.search.sort).forEach(_key => {
                     let artclNo = this.search.sort[_key];            //항목번호
                     let artclCtlInfo = this.search.control[artclNo]; //항목별 제어 정보
 
                     //컴포넌트 key
                     let cmpKey = artclNo
-                    if (artclCtlInfo.cpt.toLowerCase().indexOf("default") > -1) {
+                    if (artclCtlInfo.cpt === "defaultType1") {
                         cmpKey = artclCtlInfo.cpt;
                     }
+
                     //항목, 컴포넌트 아이디 연결
                     this.idMap[type][artclNo] = cmpKey;
 
@@ -3377,7 +3373,7 @@
                             if (result.isErr) {
                                 return;
                             }
-                            //재조회defaultType2
+                            //재조회
                             await this.commentInstance.reRenderComment(param);
 
                             //
@@ -3764,25 +3760,7 @@
                     this.artclCtlInfo[_ctlInfo.artclNo] = _ctlInfo;
                 }
 
-                hasThumbArtcl() {
-                    let objConfig = this.tboardArtcl.tboardInstance.bbsArtcl.user.ctl.detail;
-                    let artclNoList = Object.keys(objConfig.control);
-                    let thumbArtclNo = this.tboardArtcl.tboardInstance.bbsDfArtcl.getThumbArtclNo();
-
-                    let isThumbArtcl = Object.keys(artclNoList).includes(thumbArtclNo);
-                    return isThumbArtcl;
-                }
-
-                initView() {
-                    //썸네일 항목이 없으면, html에서 썸네일 삭제
-                    if (this.hasThumbArtcl() === false) {
-                        viewEl.querySelector(`[data-tboard-fld-type*="thumbType1"]`).remove();                        
-                    }
-                }
-
                 setDetailView(_pstDtlData) {
-                    this.initView();
-
                     let viewEl = this.tboardArtcl.tboardInstance.view.detail;
                     let pstData = _pstDtlData.pstInfo; //게시물데이터                
                     let movePstData = _pstDtlData.movePstInfo; //이전,다음데이터
@@ -4066,7 +4044,11 @@
                         nextDetail.appendChild(aLink);
                     }
 
-
+                    // detailType2 이고 게시판 항목에 썸네일이 없는 경우
+                    // 썸네일 관련 div 삭제
+                    if (viewEl.dataset.tboardViewType == 'detailType2' && !Object.keys(objConfig.control).find((k) => k == 'E080200001')) {
+                        viewEl.querySelector(`[data-tboard-fld-type*="thumbType1"]`).remove();
+                    }
                 }
             }
 
@@ -5559,30 +5541,26 @@
                     this.indctYn = this.tboardArtcl.getIndctYn(_ctlInfo.artclNo); //표시여부
                     this.ctlInfo = _ctlInfo; //제어정보
                     this.type = this.ctlInfo.cpt;
-                    this.isLoadSubType = false;
-                    this.isFirstOption = true;
-
-                    //설정정보
-                    this.ctrlInfo = {};
-                    this.ctrlInfo[ _ctlInfo.artclNo ] = _ctlInfo;
 
                     //초기화
-                    //this.artclNo = this.artclNo || {};
-                    //this.artclNo[_ctlInfo.artclNo] = ""; //항목번호
+                    this.artclNo = this.artclNo || {};
+                    this.artclNo[_ctlInfo.artclNo] = ""; //항목번호
 
                     //
                     this.node = undefined; //노드
                     this.labelNode = undefined; //라벨노드
 
-                    /*if (this.indctYn === "N") {
+                    if (this.indctYn === "N") {
                         return;
-                    }*/
+                    }
+
 
                     //this.tboardArtcl.idMap.search[_ctlInfo.artclNo] = _ctlInfo.cmpKey;
-                    //search_defaultType1, search_defaultType2복수 정보
-                    if (this.ctlInfo.cmpKey.toLowerCase().indexOf("default") > -1) {
-                        if (this.tboardArtcl.SearchCndComponent.instanceMap[this.ctlInfo.cmpKey]) {
-                            let obj = this.tboardArtcl.SearchCndComponent.instanceMap[this.ctlInfo.cmpKey];
+
+                    //search_defaultType1 만 복수 정보
+                    if ("defaultType1" === _ctlInfo.cmpKey) {
+                        if (this.tboardArtcl.SearchCndComponent.instanceMap[_ctlInfo.cmpKey]) {
+                            let obj = this.tboardArtcl.SearchCndComponent.instanceMap[_ctlInfo.cmpKey];
 
                             //항목번호
                             obj.artclNo = obj.artclNo || {};
@@ -5590,10 +5568,11 @@
                             this.node = obj.node;
 
                             this.create();
+
                             return obj;
                         }
 
-                        this.tboardArtcl.SearchCndComponent.instanceMap[this.ctlInfo.cmpKey] = this;
+                        this.tboardArtcl.SearchCndComponent.instanceMap[_ctlInfo.cmpKey] = this;
                     }
 
                     this.create();
@@ -5605,9 +5584,9 @@
                         return;
                     }
 
-                    //defaultType1, defaultType2 제외(타이틀)
-                    let viewType = this.ctlInfo.viewType;
-                    if (componentType.toLowerCase().indexOf("default") < 0) {                        
+                    //tboard_search_item 생성
+                    if ("defaultType1" !== componentType) {
+                        let viewType = this.ctlInfo.viewType;
                         this.node = this.elMng.cloneSrchFld(viewType, componentType);
                         this.labelNode = this.node.querySelector("[class='tboard_search_label']");
                         if (this.ctlInfo.title) {
@@ -5617,16 +5596,9 @@
                             this.labelNode.textContent = this.artclNm || "";
                         }
                     }
-                    else {
-                        if (!this.node) {
-                            //노드 복사
-                            this.node = this.elMng.cloneSrchFld(viewType, componentType);
-                        }
-                    }
 
                     //노드 생성
                     this[componentType]();
-                    this.setData(this.ini || ""); //초기값
                 }
 
                 getData() {
@@ -5652,7 +5624,6 @@
                                     , cndSeCd: "02" //OR 조건
                                 };
 
-                                //
                                 let chkArtclNo = _node.dataset.tboardArtclNo;
                                 if (chkArtclNo.toLowerCase() !== "all") { //all제외
                                     rtnData.artclNo = chkArtclNo;
@@ -5669,78 +5640,6 @@
                             };
                             rtnDatas.push(rtnData);
                         }
-                    }
-                    else if (this.type === "defaultType2") {
-                        let selectItemEl = this.node.querySelector(`[data-tboard-fld-id="selectItem"]`);
-                        let inputItemEl  = this.node.querySelector(`[data-tboard-fld-id="inputItem"]`);
-                        
-                        let selectNode = null;
-                        let optionNode = null;
-                        let inputNode = null;
-                        
-                        let selectedArtclNo = "";
-                        let selectedIndex = -1;
-                        let selectedValue = "";
-                        let inputValue = "";
-
-                        //01. selectItem 값
-                        selectNode = selectItemEl.querySelector("select");
-                        optionNode = inputItemEl.querySelector("select").querySelectorAll("option");
-                        
-                        //선택 정보
-                        selectedIndex = selectNode.selectedIndex;                        
-                        selectedArtclNo = selectNode.dataset.tboardArtclNo; //항목번호
-                        selectedValue = (selectNode.options[ selectedIndex ].value || ""),trim(); //선택값
-
-                        //선택 값이 있으면, 값 추가
-                        if (selectedValue) {
-                            rtnDatas.push( {
-                                artclNo : selectedArtclNo,
-                                artclInptCn : selectedValue,
-                                cndSeCd : "01" //AND 조건
-                            } );
-                        }
-
-                        //02. inputItem 값
-                        selectNode = inputItemEl.querySelector("select");
-                        optionNode = inputItemEl.querySelector("select").querySelectorAll("option");
-                        inputNode = inputItemEl.querySelector("input");
-                        
-                        //선택 정보
-                        selectedIndex = selectNode.selectedIndex;                        
-                        selectedArtclNo = selectNode.options[ selectedIndex ].dataset.tboardArtclNo; //선택 한 항목번호
-                        inputValue = (inputNode.value || "").trim(); //입력 값
-                        if (!inputValue) {
-                            return rtnDatas; //값이 없으면
-                        }
-
-                        //전체 선택 시
-                        if (selectedArtclNo.toLowerCase() === "all") { //전체
-                            //-input 요소에 입력 값이 있는 경우에만
-                            //제목, 내용 등 select 목록에 있는 항목값 기준으로 조회조건 생성                            
-                            Array.from(optionNode).forEach(_node => {
-                                //전체가 아니면 값 return, 전체면 불필요
-                                selectedArtclNo = _node.dataset.tboardArtclNo;
-                                if (selectedArtclNo.toLowerCase() === "all") { //all제외
-                                    return;
-                                }
-                                //값 추가
-                                rtnDatas.push( {
-                                    artclNo : selectedArtclNo,
-                                    artclInptCn : inputValue,
-                                    cndSeCd : "02" //OR 조건
-                                } );
-                            });
-                        }
-                        else {
-                            //값 추가
-                            rtnDatas.push( {
-                                artclNo : selectedArtclNo,
-                                artclInptCn : inputValue,
-                                cndSeCd : "02" //OR 조건
-                            } );
-                        }
-                        return rtnDatas;
                     }
                     else if (this.type === "inputType1") {
                         let inputNode = itemNode.querySelector("input");
@@ -5832,22 +5731,12 @@
 
                 }
 
-                setData(_value) {
-
-                }
-
                 setFocus() {
                     let itemNode = this.node.querySelector("[class='tboard_search_item']");
                     let procNode = null;
                     try {
                         if (this.type === "defaultType1") {
                             procNode = itemNode.querySelector("input");
-                            if (procNode) {
-                                procNode.focus();
-                            }
-                        }
-                        else if (this.type === "defaultType2") {
-                            procNode = itemNode.querySelector("select");
                             if (procNode) {
                                 procNode.focus();
                             }
@@ -5894,44 +5783,8 @@
                     }
                 }
 
-                checkRequired( _datas ) {
-                    let datas = this.getData() || [];
+                setData() {
 
-                    if (this.type === "defaultType1") {
-                        return true;
-                    }
-                    else if (this.type === "defaultType2") {
-                        let selectItemEl = this.node.querySelector(`[data-tboard-fld-id="selectItem"]`);
-                        //let inputItemEl = this.node.querySelector(`[data-tboard-fld-id="inputItem"]`);
-                        
-                        //selectItem Check
-                        let selectNode = selectItemEl.querySelector("select");
-                        let artclNo = selectNode.dataset.tboardArtclNo;
-                        
-                        let requiredYn = (this.ctlInfo[ artclNo ].req || "N").toUpperCase();
-                        
-                        if (requiredYn === "Y" ) {
-                            let filteredData = datas.filter((data) => data.artclNo === artclNo);
-                            if (Array.isArray(filteredData) && filteredData.length < 1) {
-                                return false;
-                            }
-                            
-                            if (!filteredData[0].artclInptCn) {
-                                return false;
-                            }
-                        }
-
-                        return true;
-                    }
-                    else {
-                        let requiredYn = (this.ctlInfo.req || "N").toUpperCase();
-                        if (requiredYn === "Y" ) {
-                            if (datas.length < 1 && !datas[0].artclInptCn) {
-                                return false;
-                            }    
-                        }
-                        return true;
-                    }                    
                 }
 
                 //기본객체(제목,내용 셀렉트, input)
@@ -5974,99 +5827,6 @@
                     }
                 }
 
-
-                //기본객체(제목,내용 셀렉트, input)
-                defaultType2() {
-                    //selectItem 세팅
-                    if (this.ctlInfo.subCpt === "select" || ((this.ctlInfo.cct) && (this.ctlInfo.src))) {
-                        //서브타입(select 요소는 하나만 있음)
-                        if (this.isLoadSubType === true) {
-                            //console.log("already subType");
-                            return;
-                        }
-                        
-                        //select 항목 추가
-                        let selectItemEl = this.node.querySelector(`[data-tboard-fld-id="selectItem"]`);
-                        let selectLabelEl = this.node.querySelector(`[class="tboard_search_label"]`);
-                        let selectNode = selectItemEl.querySelector("select");
-
-                        selectNode.dataset.tboardArtclNo = this.ctlInfo.artclNo;
-
-                        //option 삭제
-                        while (selectNode.firstChild) {
-                            selectNode.removeChild(selectNode.firstChild);
-                        }
-                        let firstOption = document.createElement("option");
-                        if (this.ctlInfo.all === "Y") {
-                            firstOption.dataset.tboardArtclNo = "all"; //항목번호
-                            firstOption.value = "all";
-                            firstOption.textContent = "전체";
-
-                            //첫라인 옵션
-                            selectNode.appendChild(firstOption);
-                        }/* else {
-                            firstOption.dataset.tboardArtclNo = "sel"; //항목번호
-                            firstOption.value = "sel";
-                            firstOption.textContent  = "선택";
-                        }*/
-
-                        let codeList = this.comCodeMng.getCodeList(this.ctlInfo.cct, this.ctlInfo.src);
-                        for (const code of codeList) {
-                            //옵션추가
-                            let option = document.createElement("option");
-                            option.value = code.comCd;
-                            option.textContent = code.comCdNm;
-                            selectNode.appendChild(option);
-                        }
-                        
-                        if (this.ctlInfo.title) {
-                            selectLabelEl.textContent = this.ctlInfo.title
-                        }
-                        else {
-                            selectLabelEl.textContent = this.artclNm; //명칭
-                        }
-                            
-                        this.isLoadSubType = true;
-                    }
-                    else {
-                        
-                        //inputItem 세팅
-                        let inputItemEl = this.node.querySelector(`[data-tboard-fld-id="inputItem"]`);
-                        let selectNode = inputItemEl.querySelector("select");
-
-                        //첫 셀렉트 옵션 값
-                        if (this.isFirstOption) {
-                            //option 삭제
-                            while (selectNode.firstChild) {
-                                selectNode.removeChild(selectNode.firstChild);
-                            }
-
-                            let firstOption = document.createElement("option");
-                            if (this.ctlInfo.all === "Y") {
-                                firstOption.dataset.tboardArtclNo = "all"; //항목번호
-                                firstOption.textContent = "전체";
-                            }
-
-                            selectNode.appendChild(firstOption);
-                            this.isFirstOption = false;
-                        }
-
-                        //제목, 내용, ect  등 옵션 추가
-                        let option = document.createElement("option");
-                        option.dataset.tboardArtclNo = this.ctlInfo.artclNo; //항목번호
-                        
-                        if (this.ctlInfo.title) {
-                            option.textContent = this.ctlInfo.title
-                        }
-                        else {
-                            option.textContent = this.artclNm;                  //명칭
-                        }
-                        selectNode.appendChild(option);
-                    }
-
-
-                }
-
                 //인풋
                 inputType1() {
                     this.node.querySelector("input").dataset.tboardArtclNo = this.ctlInfo.artclNo;
@@ -6074,6 +5834,7 @@
 
                 //select
                 selectType1() {
+
                     //select node 찾아서 옵션 추가
                     let selectNode = this.node.querySelector("select");
                     selectNode.dataset.tboardArtclNo = this.ctlInfo.artclNo;
@@ -6191,46 +5952,12 @@
                 //date
                 dateType1() {
                     this.node.querySelector("input").dataset.tboardArtclNo = this.ctlInfo.artclNo;
+
                 }
 
                 //dateperiod
                 dateperiodType1() {
                     this.node.querySelector("input").dataset.tboardArtclNo = this.ctlInfo.artclNo;
-                }
-
-                yearType1() {
-                    //select node 찾아서 옵션 추가
-                    let selectNode = this.node.querySelector("select");
-                    selectNode.dataset.tboardArtclNo = this.ctlInfo.artclNo;
-
-                    //option 삭제
-                    while (selectNode.firstChild) {
-                        selectNode.removeChild(selectNode.firstChild);
-                    }
-                    let firstOption = document.createElement("option");
-                    if (this.ctlInfo.all === "Y") {
-                        firstOption.dataset.tboardArtclNo = "all"; //항목번호
-                        firstOption.value = "all";
-                        firstOption.textContent = "전체";
-
-                        //첫라인 옵션
-                        selectNode.appendChild(firstOption);
-                    }
-
-                    let crntYear = new Date().getFullYear();
-                    
-                    let duration = 15;
-                    if (isNaN(this.ctlInfo.dur) === false) {
-                        duration = Number(this.ctlInfo.dur);
-                    }
-
-                    for (let i = 0; i <= duration; i++)  {
-                        let option = document.createElement("option");
-                        option.value = (crntYear - i);
-                        option.textContent  = (crntYear - i);
-                    }
-
-                    
                 }
             }
 
@@ -6365,20 +6092,25 @@
                 try {
                     Object.keys(cndCmp).forEach(_key => {
                         let artclCmp = cndCmp[_key];
+                        let isRequired = artclCmp.ctlInfo.req || ""; //필수
+                        let length = artclCmp.ctlInfo.len || -1; //길이수
+
                         let cmpData = artclCmp.getData() || [];
-                        
-                        //필수체크
-                        if (artclCmp.checkRequired() === false) {
-                            let artclKrNm = objTboard.bbsArtcl.getArtclNm(cmpData[0].artclNo);
-                            //필수값
-                            objRslt.isErr = true;
-                            objRslt.code = "msg_907";
-                            objRslt.arrWord = [artclKrNm];
-                            artclCmp.setFocus();
+                        //console.log(" search value : ", cmpData);
+                        //console.log(" search value : ", objTboard.bbsArtcl.getArtclNm(cmpData[0].artclNo));
+                        //필수값체크
+                        if (isRequired.toUpperCase() === "Y") {
+                            if (cmpData.length < 1 && !cmpData[0].artclInptCn) {
+                                let artclKrNm = objTboard.bbsArtcl.getArtclNm(cmpData[0].artclNo);
+                                //필수값
+                                objRslt.isErr = true;
+                                objRslt.code = "msg_907";
+                                objRslt.arrWord = [artclKrNm];
+                                artclCmp.setFocus();
 
-                            throw new Error("Required");
+                                throw new Error("Required");
+                            }
                         }
-
                         artclData = [...artclData, ...cmpData];
                     });
                 }
@@ -8200,7 +7932,96 @@
                     this.tboardSortRootEl.firstChild.remove();
                 }
             }
-        }, 
+        },
+        TboardRenderView = class {
+            constructor(_instance) {
+                this.tboardInstance = _instance;
+            }
+
+            basicWriteView() {
+
+
+            }
+
+
+            // replyWrite() {
+
+            //     //등록 영역
+            //     let writeAreaNode = this.view.write.querySelector("[class='tboard_write_con']");
+
+            //     //순서대로
+            //     let widthCtl   = 0;
+            //     let objConfig  = this.bbsArtcl.user.ctl.write;
+            //     let cmpSortSeq = Object.keys(this.bbsArtcl.user.ctl.write.sort).sort((a, b) => Number(a) - Number(b));
+
+            //     cmpSortSeq.forEach( _key => {
+            //         let artclNo   = objConfig.sort[_key]; //항목번호
+
+            //         //화면에 그릴 컴포넌트
+            //         let component = this.bbsArtcl.cmp.write.artcl[ artclNo ];
+
+            //         if (component.indctYn !== "Y") {
+            //             return;
+            //         }
+
+            //         //최초에 한번 등록                    
+            //         if (!component.isAppended) {
+            //             //로우
+            //             let rowNode = tboardMng.elements.writeType1.writeFld.root.cloneNode(true);
+
+            //             if (component.subType === "notice") {
+            //                 rowNode.appendChild(component.formEl.checkItem);
+            //                 rowNode.appendChild(component.formEl.inputItem);
+
+            //                 writeAreaNode.appendChild(rowNode);
+            //             }
+            //             else if (component.subType === "secret") {
+            //                 rowNode.appendChild(component.formEl.radioItem);                        
+            //                 writeAreaNode.appendChild(rowNode);
+            //             }
+            //             else {
+            //                 //로우에 추가 될 등록 화면 사용 컴포넌트 아이템
+            //                 let itemNode = component.node;
+            //                 itemNode.dataset.tboardArtclNo = artclNo;
+
+            //                 //objConfig
+            //                 let isFull = true;
+            //                 if (isFull) {
+            //                     writeAreaNode.appendChild(rowNode).appendChild(itemNode);
+            //                     widthCtl = 0;
+            //                 }
+            //                 else {
+            //                     widthCtl = widthCtl + 50
+            //                     if (widthCtl % 100 === 50) {
+            //                         //마지막(tboard_search_row)노드의 마지막 tboard_search_item 삭제 후 append
+            //                     }
+            //                     else {
+            //                         writeAreaNode.appendChild(rowNode).appendChild(itemNode);
+            //                     }
+            //                 }
+            //             }
+            //             component.isAppended = true;
+            //         }
+
+            //         //그 다음 화면 오픈 시 값 만 초기화
+            //         component.setInitValue();
+            //     });
+
+
+            //     this.displayView( this.view.write );
+            // }
+
+
+            displayView(_viewElement) {
+                if (rootNode.firstElementChild instanceof Node) {
+                    //이전화면 백업
+                    this.viewTemp.prevPage = rootNode.firstElementChild.cloneNode(true);
+                    rootNode.firstElementChild.remove();
+                }
+
+                rootNode.append(_viewElement);
+            }
+        },
 
         TboardOptionConfig = class {
             constructor(_instance) {
@@ -8636,130 +8457,44 @@
                         this.viewTemp.search.all = rootNode.firstElementChild.cloneNode(true);
                         rootNode.firstElementChild.remove();
                     }
-                    
+
                     //조회조건 영역
                     let searchCndAreaNode = this.view.search.querySelector("[class='tboard_search_con']");
 
-                    //컴포넌트 객체
                     let objConfig = this.bbsArtcl.user.ctl.search;
                     let cmpSortSeq = Object.keys(objConfig.sort).sort((a, b) => Number(a) - Number(b));
-                    let rowNode = null;
 
-                    //컴포넌트 객체 화면에 추가
-                    cmpSortSeq.forEach(_key => {
-                        let artclNo = objConfig.sort[_key];            //항목번호
-                        let artclCtlInfo = this.search.control[artclNo]; //항목별 제어 정보
+                    //let ctrlEntries = Object.entries(cmpSortSeq);
+                    let crntArtclNo = "";
+                    let nextArtclNo = "";
+                    for (let i = 1; i <= cmpSortSeq.length; i++) {
+                        crntArtclNo = objConfig.sort[i];
+                        nextArtclNo = cmpSortSeq.length > i + 1 ? "" : objConfig.sort[i + 1];
 
-                        //컴포넌트 key
-                        let cmpKey = artclNo
-                        if (artclCtlInfo.cpt.toLowerCase().indexOf("default") > -1) {
-                            cmpKey = artclCtlInfo.cpt; //defaultType1, defaultType2
-                        }
-                        //화면에 그릴 컴포넌트
-                        let component = this.bbsArtcl.cmp.search[cmpKey];
-                        
-                        //width 값
-                        let width = 100;
-                        if (artclCtlInfo.cpt.toLowerCase().indexOf("default") > -1) {
-                            width = 100;
-                        }
-                        else if (isNaN(component.ctlInfo.width) === false) {
-                            width = Number(component.ctlInfo.width || 100);
-                        }
-
-                        //최초에 한번 등록
-                        if (!component.isAppended) {
-                            //로우 생성여부
-                            let isNewRow = true;
-
-                            if (rowNode === null) {
-                                rowNode = component.node;
-                            }
-                            else if (!width || width === 0 || width === 100) {
-                                rowNode = component.node;
-                                width = 100;
-                            }
-                            else {
-                                let sumWidth = 0;
-                                rowNode.childNodes.forEach(itemEl => {
-                                    let iWidth = 0;
-                                    try {
-                                        iWidth = Number(itemEl.dataset.tboardWidth);
-                                    }
-                                    catch (error) {
-                                        iWidth = 0;
-                                    }
-                                    sumWidth = sumWidth + iWidth;
-                                });
-                                if (sumWidth + width > 100) {
-                                    rowNode = component.node;
-                                } else {
-                                    //기존 로우로 item요소 붙임
-                                    let itemEl = component.node.querySelector(`[class="tboard_search_item"]`);
-                                    rowNode.appendChild(itemEl);
-                                    isNewRow = false;
-                                }
-                            }
-
-                            //로우 추가
-                            if (isNewRow === true) {
-                                searchCndAreaNode.appendChild(rowNode);
-                            }
-                            
-                            component.isAppended = true;
-                        }
-
-
-                                                 
-                    });
-
-
-
-
-                    //item width
-                    let width = 100;
-                    if (isNaN(component.ctlInfo.width) === false) {
-                        width = Number(component.ctlInfo.width || 100);
+                        //console.log(i, objConfig.control[crntArtclNo] , objConfig.control[nextArtclNo]);
                     }
-                    if (["pstNm", "pstCn"].includes(artclDbNm)) {
-                        width = 100;
-                    }
-                    else if (this.bbsDfArtcl.isAtchArtcl(artclNo)) {
-                        width = 100;
-                    }
+
 
                     //조회조건 순서대로
                     let isDefaultType1 = false;
                     let widthCtl = 0;
-                    
-                    
-                    
-                    
-                    
-                    cmpSortSeq.forEach(_key => {
+                    Object.keys(this.bbsArtcl.user.ctl.search.sort).forEach(_key => {
                         let artclNo = this.bbsArtcl.user.ctl.search.sort[_key];
                         let artclInfo = this.bbsArtcl.user.ctl.search.control[artclNo];
-
-
-
+                        let cptKey = "";
+                        let isFull = true;
+                        if (artclInfo.cpt === "defaultType1") {
+                            if (isDefaultType1 === true) {
+                                return;
+                            }
+                            isDefaultType1 = true;
+                            cptKey = "defaultType1";
+                        }
+                        else {
+                            cptKey = artclNo;
+                        }
 
                         let cndNode = this.bbsArtcl.cmp.search[cptKey].node;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        
                         if (isFull) {
                             searchCndAreaNode.appendChild(cndNode);
                             widthCtl = 0;
