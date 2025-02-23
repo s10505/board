@@ -1,0 +1,691 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <!-- <link rel="stylesheet" href="../css/tboard.css"> -->
+</head>
+<body style="padding: 30px;">
+
+
+<!-- ============================= -->
+<!-- ========== 여기부터 ========== -->
+
+<div class="tboard_root" data-tboard-id="tb-root" data-tboard-view-type="searchType1|searchType2|searchType3">
+
+  <!-- 조회조건 (row 하나씩만 나올 경우 : 고객 요청) -->
+  <div class="tboard_search" data-tboard-view-sub-type="all">
+
+    <!-- 검색영역 -->
+    <div class="tboard_search_con" data-tboard-fld-grp="srchFld">
+
+      <!-- row -->
+      <div class="tboard_search_row" data-tboard-fld-type="srchFld.defaultType1">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">검색</div>
+          <div class="tboard_search_input">
+            <select title="검색조건">
+              <option>전체</option>
+              <option>제목</option>
+              <option>내용</option>
+            </select>
+            <input type="text" title="검색어">
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+      
+      <!-- row -->
+      <div class="tboard_search_row tboard_search_row_only" data-tboard-fld-type="srchFld.defaultType2"> <!--tboard_search_row_only-->
+        
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">구분</div>
+          <div class="tboard_search_input">
+            <select title="구분">
+              <option>전체</option>
+              <option>구분값</option>
+              <option>구분값</option>
+            </select>
+          </div>
+        </div>
+        <!-- //item -->
+
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">검색</div>
+          <div class="tboard_search_input">
+            <select title="검색조건">
+              <option>전체</option>
+              <option>제목</option>
+              <option>내용</option>
+            </select>
+            <input type="text" title="검색어">
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+ 
+
+      <!-- row -->
+      <div class="tboard_search_row" data-tboard-fld-type="srchFld.selectType1">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">선택</div>
+          <div class="tboard_search_input">
+            <select title="선택">
+              <option>전체</option>
+              <option>옵션</option>
+              <option>옵션</option>
+            </select>
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+
+      <!-- row -->
+      <div class="tboard_search_row" data-tboard-fld-type="srchFld.radioType1">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">라디오</div>
+          <div class="tboard_search_input">
+            <label class="tboard_radio"><input type="radio" name="radioSet"><span>안전</span></label>
+            <label class="tboard_radio"><input type="radio" name="radioSet"><span>건설</span></label>
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+      
+      <!-- row -->
+      <div class="tboard_search_row" data-tboard-fld-type="srchFld.checkType1">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">체크박스</div>
+          <div class="tboard_search_input">
+            <label class="tboard_check"><input type="checkbox"><span>체크1</span></label>
+            <label class="tboard_check"><input type="checkbox"><span>체크2</span></label>
+            <label class="tboard_check"><input type="checkbox"><span>체크3</span></label>
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+      
+      <!-- row -->
+      <div class="tboard_search_row" data-tboard-fld-type="srchFld.inputType1">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">텍스트</div>
+          <div class="tboard_search_input">
+            <input type="text" title="텍스트">
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+      
+      <!-- row -->
+      <div class="tboard_search_row" data-tboard-fld-type="srchFld.dateType1">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">달력</div>
+          <div class="tboard_search_input">
+            <input type="date" title="달력">
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+      
+      <!-- row -->
+      <div class="tboard_search_row" data-tboard-fld-type="srchFld.dateperiodType1">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">기간</div>
+          <div class="tboard_search_input">
+            <input type="date" title="시작일">
+            ~
+            <input type="date" title="종료일">
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+
+      <!-- row -->
+      <div class="tboard_search_row">
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">텍스트(좌)</div>
+          <div class="tboard_search_input">
+            <input type="text" title="텍스트(좌)">
+          </div>
+        </div>
+        <!-- //item -->
+        
+        <!-- item -->
+        <div class="tboard_search_item">
+          <div class="tboard_search_label">텍스트(우)</div>
+          <div class="tboard_search_input">
+            <input type="text" title="텍스트(우)">
+          </div>
+        </div>
+        <!-- //item -->
+      </div>
+      <!-- //row -->
+
+    </div>
+    <!-- //검색영역 -->
+
+    <!-- 버튼영역 -->
+    <div class="tboard_search_buttons">
+      <button type="button" class="tboard_btn_secondary">검색</button>
+    </div>
+    <!-- //버튼영역 -->
+  </div>
+  <!-- //조회조건 (기본) -->
+
+  <!-- Sort -->
+  <div class="tboard_sort" data-tboard-view-sub-type="all">
+    <div class="tboard_count">
+      총
+      <div class="tboard_count_em">0</div>
+      건
+    </div>
+    <div class="tboard_sortBy">
+      <div class="tboard_sortBy_title">정렬기준</div>
+      <button type="button" class="tboard_sortBy_item tboard_sortBy_item_selected">최신순</button>
+      <button type="button" class="tboard_sortBy_item">조회순</button>
+      <button type="button" class="tboard_sortBy_item">제목순</button>
+    </div>
+  </div>
+  <!-- //Sort -->
+
+  <!-- List -->
+  <div class="tboard_list" data-tboard-view-sub-type="searchType1">
+    <!-- List header -->
+    <div class="tboard_list_header" data-tboard-fld-grp="tblHeaderFld">
+      <div style="width: 50px;" data-tboard-fld-type="tblHeaderFld.defaultType1">No</div>
+      <!-- <div style="width: 140px;">분야</div> -->
+      <div>제목</div>
+      <div style="width: 40px;">첨부</div>
+      <!-- <div style="width: 135px;">작성자</div>
+      <div style="width: 110px;">등록일</div>
+      <div style="width: 86px;">조회수</div> -->
+    </div>
+    <!-- //List header -->
+
+    <!-- row -->
+    <div class="tboard_list_row tboard_list_notice" data-tboard-fld-grp="tblColumnFld">
+      <div class="tboard_list_cell_center" title="" data-tboard-fld-type="tblColumnFld.defaultType1">
+        <div class="tboard_list_item_title">No</div>
+        공지
+      </div>
+      <!-- <div class="tboard_list_cell_normal" title="기계·전기안전분야">
+        <div class="tboard_list_item_title">분야</div>
+        기계·전기안전분야
+      </div> -->
+      <div class="tboard_list_cell_normal" data-tboard-fld-type="tblColumnFld.titleType1">
+        <div class="tboard_list_item_title">제목</div>
+        <a href="javascript:void(0);" class="tboard_list_subject" title="제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분">
+          <i class="tboard_list_new"><span>신규</span></i>
+          <i class="tboard_icon_locked"><span>비밀글</span></i>
+          제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분
+        </a>
+      </div>
+      <div class="tboard_list_cell_center" data-tboard-fld-type="tblColumnFld.atchType1">
+        <div class="tboard_list_item_title">첨부</div>
+        <a href="javascript:void(0);" class="tboard_icon_download"><span>다운로드</span></a>
+      </div>
+      <!-- <div class="tboard_list_cell_center" title="홍길동">
+        <div class="tboard_list_item_title">작성자</div>
+        홍길동
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">등록일</div>
+        2024-12-31
+      </div>
+      <div class="tboard_list_cell_right">
+        <div class="tboard_list_item_title">조회수</div>
+        99
+      </div> -->
+    </div>
+    <!-- //row -->
+
+    <!-- row -->
+    <!-- <div class="tboard_list_row">
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">No</div>
+        5
+      </div>
+      <div class="tboard_list_cell_normal" title="기계·전기안전분야">
+        <div class="tboard_list_item_title">분야</div>
+        기계·전기안전분야
+      </div>
+      <div class="tboard_list_cell_normal">
+        <div class="tboard_list_item_title">제목</div>
+        <a class="tboard_list_subject" href="" title="제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분">
+          <i class="tboard_list_new"><span>신규</span></i>
+          제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분
+        </a>
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">첨부</div>
+        <a href="" class="tboard_icon_download"><span>다운로드</span></a>
+      </div>
+      <div class="tboard_list_cell_center" title="안전보건공단">
+        <div class="tboard_list_item_title">작성자</div>
+        안전보건공단
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">등록일</div>
+        2024-12-31
+      </div>
+      <div class="tboard_list_cell_right">
+        <div class="tboard_list_item_title">조회수</div>
+        1,042
+      </div>
+    </div> -->
+    <!-- //row -->
+
+    <!-- row -->
+    <!-- <div class="tboard_list_row">
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">No</div>
+        4
+      </div>
+      <div class="tboard_list_cell_normal" title="기계·전기안전분야">
+        <div class="tboard_list_item_title">분야</div>
+        기계·전기안전분야
+      </div>
+      <div class="tboard_list_cell_normal">
+        <div class="tboard_list_item_title">제목</div>
+        <a class="tboard_list_subject" href="" title="제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분">
+          제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분
+        </a>
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">첨부</div>
+        <a href="" class="tboard_icon_download"><span>다운로드</span></a>
+      </div>
+      <div class="tboard_list_cell_center" title="인적자원개발부">
+        <div class="tboard_list_item_title">작성자</div>
+        인적자원개발부
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">등록일</div>
+        2024-12-31
+      </div>
+      <div class="tboard_list_cell_right">
+        <div class="tboard_list_item_title">조회수</div>
+        99
+      </div>
+    </div> -->
+    <!-- //row -->
+
+    <!-- row -->
+    <!-- <div class="tboard_list_row">
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">No</div>
+        3
+      </div>
+      <div class="tboard_list_cell_normal" title="기계·전기안전분야">
+        <div class="tboard_list_item_title">분야</div>
+        기계·전기안전분야
+      </div>
+      <div class="tboard_list_cell_normal">
+        <div class="tboard_list_item_title">제목</div>
+        <a class="tboard_list_subject" href="" title="제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분">
+          <i class="tboard_icon_locked"><span>비밀글</span></i>
+          제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분
+        </a>
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">첨부</div>
+        <a href="" class="tboard_icon_download"><span>다운로드</span></a>
+      </div>
+      <div class="tboard_list_cell_center" title="홍길동">
+        <div class="tboard_list_item_title">작성자</div>
+        홍길동
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">등록일</div>
+        2024-12-31
+      </div>
+      <div class="tboard_list_cell_right">
+        <div class="tboard_list_item_title">조회수</div>
+        99
+      </div>
+    </div> -->
+    <!-- //row -->
+
+    <!-- row -->
+    <!-- <div class="tboard_list_row">
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">No</div>
+        2
+      </div>
+      <div class="tboard_list_cell_normal" title="기계·전기안전분야">
+        <div class="tboard_list_item_title">분야</div>
+        기계·전기안전분야
+      </div>
+      <div class="tboard_list_cell_normal">
+        <div class="tboard_list_item_title">제목</div>
+        <a class="tboard_list_subject" href="" title="제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분">
+          제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분
+        </a>
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">첨부</div>
+        <a href="" class="tboard_icon_download"><span>다운로드</span></a>
+      </div>
+      <div class="tboard_list_cell_center" title="홍길동">
+        <div class="tboard_list_item_title">작성자</div>
+        홍길동
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">등록일</div>
+        2024-12-31
+      </div>
+      <div class="tboard_list_cell_right">
+        <div class="tboard_list_item_title">조회수</div>
+        99
+      </div>
+    </div> -->
+    <!-- //row -->
+
+    <!-- row -->
+    <!-- <div class="tboard_list_row">
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">No</div>
+        1
+      </div>
+      <div class="tboard_list_cell_normal" title="기계·전기안전분야">
+        <div class="tboard_list_item_title">분야</div>
+        기계·전기안전분야
+      </div>
+      <div class="tboard_list_cell_normal">
+        <div class="tboard_list_item_title">제목</div>
+        <a class="tboard_list_subject" href="" title="제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분">
+          제목 출력될 부분 제목 출력될 부분 제목 출력될 부분 제목 출력될 부분
+        </a>
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">첨부</div>
+        <a href="" class="tboard_icon_download"><span>다운로드</span></a>
+      </div>
+      <div class="tboard_list_cell_center" title="홍길동">
+        <div class="tboard_list_item_title">작성자</div>
+        홍길동
+      </div>
+      <div class="tboard_list_cell_center">
+        <div class="tboard_list_item_title">등록일</div>
+        2024-12-31
+      </div>
+      <div class="tboard_list_cell_right">
+        <div class="tboard_list_item_title">조회수</div>
+        99
+      </div>
+    </div> -->
+    <!-- //row -->
+  </div>
+  <!-- //List -->
+  
+  
+  <!-- Gallery -->
+  <div class="tboard_gallery" data-tboard-view-sub-type="searchType2" data-tboard-fld-grp="galleryList">
+    <!-- item -->
+    <div class="tboard_gallery_item" data-tboard-fld-grp="galleryItemFld">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');" data-tboard-fld-type="galleryItemFld.thumbType1"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject" data-tboard-fld-type="galleryItemFld.titleType1">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info" data-tboard-fld-grp="galleryInfoFld" data-tboard-fld-type="galleryItemFld.info">
+        <button type="button" class="tboard_icon_download" data-tboard-fld-type="galleryInfoFld.atchType1"><span>다운로드</span></button>
+        <span data-tboard-fld-type="galleryInfoFld.defaultType1">2024-12-31</span>
+        <span data-tboard-fld-type="galleryInfoFld.defaultType2">조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+    
+    <!-- item -->
+    <div class="tboard_gallery_item">
+      <a href="" class="tboard_gallery_thumb" style="background-image: url('../@temp.gif');"><span>썸네일</span></a>
+      <a href="" class="tboard_gallery_subject">2024년 월간 안전보건 바로가기 8월호</a>
+      <div class="tboard_gallery_info">
+        <button type="button" class="tboard_icon_download"><span>다운로드</span></button>
+        <span>2024-12-31</span>
+        <span>조회수: 3,315</span>
+      </div>
+    </div>
+    <!-- item -->
+  </div>
+  <!-- //Gallery -->
+  
+  
+    <!-- FAQ -->
+  <div class="tboard_faq" data-tboard-view-sub-type="searchType3" data-tboard-fld-grp="faqFld">
+
+    <!-- item -->
+    <div class="tboard_faq_item" data-tboard-fld-type="faqFld.defaultType1">
+      <button type="button" class="tboard_faq_question" data-tboard-id="faqTitle">회원가입이 필요한가요?</button>
+      <div class="tboard_faq_answer">
+        <div class="tboard_faq_con" data-tboard-id="faqAnswer">
+          시료 신청을 위하여 별도의 회원가입이 필요 없으며, 핸드폰으로 로그인하면 즉시 시료 신청이 가능합니다.
+        </div>
+
+        <!-- //Files -->
+        <div class="tboard_article_files" data-tboard-fld-type="faqFld.atchType1" data-tboard-fld-grp="atchFld">
+          <div class="tboard_count" data-tboard-fld-type="atchFld.info">
+            총
+            <div class="tboard_count_em" data-tboard-fld-id="atchCnt">2</div>
+            개
+          </div>
+          <button type="button" class="tboard_downloadAll" data-tboard-fld-type="atchFld.btnAll">전체 다운로드</button>
+
+          <!-- item -->
+          <div class="tboard_file_item" data-tboard-fld-type="atchFld.item">
+            <a href="javascript:void(0);" data-tboard-fld-id="atchFileNm">파일명 [17KB]</a>
+            <div class="tboard_file_item_buttons">
+              <button type="button">
+                다운로드
+                <i class="tboard_icon_download"></i>
+              </button>
+              <!-- <button type="button">
+                미리보기
+                <i class="tboard_icon_preview"></i>
+              </button> -->
+            </div>
+          </div>
+          <!-- //item -->
+        </div>
+        <!-- //Files -->
+         
+      </div>
+    </div>
+    <!-- //item -->
+
+
+    <!-- item -->
+    <div class="tboard_faq_item">
+      <button type="button" class="tboard_faq_question">회원가입이 필요한가요?</button>
+      <div class="tboard_faq_answer">
+        <div class="tboard_faq_con">
+          시료 신청을 위하여 별도의 회원가입이 필요 없으며, 핸드폰으로 로그인하면 즉시 시료 신청이 가능합니다. 시료 신청을 위하여 별도의 회원가입이 필요 없으며, 핸드폰으로 로그인하면 즉시 시료 신청이 가능합니다. 시료 신청을 위하여 별도의 회원가입이 필요 없으며, 핸드폰으로 로그인하면 즉시 시료 신청이 가능합니다. 시료 신청을 위하여 별도의 회원가입이 필요 없으며, 핸드폰으로 로그인하면 즉시 시료 신청이 가능합니다. 시료 신청을 위하여 별도의 회원가입이 필요 없으며, 핸드폰으로 로그인하면 즉시 시료 신청이 가능합니다.
+        </div>
+      </div>
+    </div>
+    <!-- //item -->
+
+    <!-- item -->
+    <div class="tboard_faq_item">
+      <button type="button" class="tboard_faq_question">건축물이 여러 개 있을 경우 조사 및 해체.제거 대상을 판단하기 위해 각 건축물을 독립적으로 파악해야 하는지 아니면 전체 건축물을 합해서 보아야 하는지?</button>
+      <div class="tboard_faq_answer">
+        <div class="tboard_faq_con">
+          짧은 답변
+        </div>
+      </div>
+    </div>
+    <!-- //item -->
+  </div>
+  <!-- //FAQ -->
+  
+
+  <div class="tboard_footer_buttons" data-tboard-view-sub-type="all" data-tboard-auth="basic.write">
+    <a href="javascript:void(0);" class="tboard_btn_tertiary" style="background-color: #246beb; border-color: white; color: white;";>등록</a>
+  </div>
+
+  <!-- Pagination -->
+  <div class="tboard_pagination"  data-tboard-view-sub-type="all">
+    <button type="button" class="tboard_pagination_first"><span>처음</span></button>
+    <button type="button" class="tboard_pagination_prev"><span>이전</span></button>
+    <div class="tboard_pagination_pages">
+      <button type="button">1</button>
+      <button type="button">2</button>
+      <button type="button" class="tboard_paginiation_current">3</button>
+      <button type="button">4</button>
+      <button type="button">5</button>
+      <button type="button">6</button>
+      <button type="button">7</button>
+      <button type="button">8</button>
+      <button type="button">9</button>
+      <button type="button">10</button>
+    </div>
+    <button type="button" class="tboard_pagination_next"><span>다음</span></button>
+    <button type="button" class="tboard_pagination_last"><span>끝</span></button>
+  </div>
+  <!-- //Pagination -->
+
+</div>
+
+<!-- //========== 여기까지 ========== -->
+<!-- //============================= -->
+
+
+</body>
+</html>

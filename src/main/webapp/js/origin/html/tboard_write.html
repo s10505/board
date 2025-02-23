@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../public/css/tboard.css">
+</head>
+
+<!-- ============================= -->
+<!-- ========== 여기부터 ========== -->
+<body>
+    <div class="tboard_root" data-tboard-id="tb-root" data-tboard-view-type="writeType1">
+        
+        <!-- 등록 Start -->
+        <div class="tboard_write">
+
+            <!-- 등록 contents -->
+            <div class="tboard_write_con" data-tboard-fld-grp="root">
+
+                <!-- row -->
+                <div class="tboard_write_row" data-tboard-fld-grp="writeFld">
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.inputType1">
+                        <div class="tboard_write_label">제목</div>
+                        <div class="tboard_write_input">
+                            <input  type="text" title="제목" placeholder="제목을 입력하세요.">
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.textareaType1">
+                        <div class="tboard_write_label">내용(에디터 타입)</div>
+                        <div class="tboard_write_input">
+                            <textarea title="내용입력" placeholder="내용을 입력하세요."></textarea>
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.editType1">
+                        <div class="tboard_write_label">내용(텍스트 영역)</div>
+                        <div class="tboard_write_input">
+                            <textarea title="내용입력" placeholder="내용을 입력하세요."></textarea>
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+                
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.selectType1">
+                        <div class="tboard_write_label">선택 정보</div>
+                        <div class="tboard_write_input">
+                            <select>
+                                <option>전체</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.radioType1">
+                        <div class="tboard_write_label">라디오</div>
+                        <div class="tboard_write_input">
+                            <label class="tboard_radio"><input type="radio" name="radioSet"><span>안전</span></label>
+                            <label class="tboard_radio"><input type="radio" name="radioSet"><span>건설</span></label>
+                        </div>
+                    </div>
+                    <!-- //item -->
+
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.checkType1">
+                        <div class="tboard_write_label">체크박스</div>
+                        <div class="tboard_write_input">
+                            <label class="tboard_check"><input type="checkbox"><span>전체</span></label>
+                            <label class="tboard_check"><input type="checkbox"><span>책자</span></label>
+                            <label class="tboard_check"><input type="checkbox"><span>동영상</span></label>
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.dateType1">
+                        <div class="tboard_write_label">달력</div>
+                        <div class="tboard_write_input">
+                            <input title="달력" type="date">
+                        </div>
+                    </div>
+                    <!-- //item -->
+                    
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.dateperiodType1">
+                        <div class="tboard_write_label">기간달력</div>
+                        <div data-tboard-id="koshatboard_search_calendarSpan_start" class="tboard_write_input">
+                            <input title="달력" type="date">
+                            ~
+                            <input title="달력" type="date">
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item">
+                        <div class="tboard_write_label">텍스트</div>
+                        <div class="tboard_write_input">
+                            <input type="text" title="텍스트">
+                        </div>
+                    </div>
+                    <!-- //item -->
+                    
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.emailType1">
+                        <div class="tboard_write_label">이메일</div>
+                    
+                        <div class="tboard_write_input tboard_write_email">
+                            <input type="text" title="이메일 아이디">
+                            @
+                            <input type="text" title="이메일 도메인">
+                            <select >
+                                <option>직접입력</option>
+                                <option>naver.com</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item" data-tboard-fld-type="writeFld.atchType1">
+                        <div class="tboard_write_label">다중 첨부파일</div>
+                        <!-- 첨부파일 - 다중 업로드(신청화면) -->
+                        <div class="tboard_write_input">
+                            <div class="tboard_file_multi">
+                                <button type="file" class="tboard_btn_file">첨부파일</button>
+                                <div class="tboard_file_text" data-tboard-id="fileSize">※ 100MB 이하의 파일만 업로드 가능</div>
+                                <div class="tboard_file_text" data-tboard-id="fileExt">※ hwp, pdf, ppts, xlsx, jpg, gif, eng, zip, egg 형식만 가능</div>
+                                <div class="tboard_file_top">
+                                    <div class="tboard_file_result">총 <span  data-tboard-id="atchCnt">0</span>개</div>
+                                    <button type="button" data-tboard-id="btnAllDelete">
+                                        전체 파일 삭제
+                                    </button>
+                                </div>
+                                <div class="tboard_file_multilist" data-tboard-fld-grp="atchFld">
+                                    <div class="tboard_file_item" data-tboard-fld-type="atchFld.defaultType1">
+                                        <span data-tboard-id="atchFileNm">파일명 [17KB]</span>
+                                        <button type="button">
+                                            삭제
+                                            <i class="tboard_icon_del"></i>
+                                        </button>
+                                    </div>
+                                    <div class="tboard_file_item">
+                                        <span>파일명 [17KB]</span>
+                                        <button type="button">
+                                            삭제
+                                            <i class="tboard_icon_del"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- //첨부파일 - 다중 업로드(신청화면) -->
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+
+                <!-- row -->
+                <div class="tboard_write_row">
+                    <!-- item -->
+                    <div class="tboard_write_item">
+                        <div class="tboard_write_label">단건 첨부파일</div>
+                        <div class="tboard_write_input">
+                            <div class="tboard_file_only">
+                                <input type="text" placeholder="파일을 첨부해주세요." readonly>
+                                <button type="button" class="tboard_btn_clear">삭제</button>
+                            </div>
+                            <button type="file" class="tboard_btn_file">첨부파일</button>
+                        </div>
+                    </div>
+                    <!-- //item -->
+                </div>
+                <!-- //row -->
+                
+            </div>
+            <!-- //등록 영역 contents -->
+
+        </div>
+        <!-- //등록 영역 End -->
+
+        <!-- 버튼 영역 -->
+        <div class="tboard_footer_buttons">
+            <a class="tboard_btn_tertiary" data-tboard-id="btnPstCancel">취소</a>
+            <a class="tboard_btn_primary" data-tboard-id="btnPstSave" data-tboard-auth="basic.write|reply.write">저장</a>
+        </div>
+        <!-- //버튼 영역 -->
+    </div>
+</body>
+</html>

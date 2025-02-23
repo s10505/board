@@ -168,6 +168,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const imageContainer = document.querySelector('[data-tboard-id="image"]');
     imageContainer.appendChild(imageElement);
 
+    let listItem = ["1", "2", "3", "4", "5", "6"];
+    document.querySelector('[id="btnTest"]').addEventListener("click", async () => {
+        debugger;
+        try {
+            listItem.every(item => {
+                console.log(item);
+                if (item === "3") {
+                    return false;
+                }
+                return true;
+            });
+
+        }
+        catch(error) {
+            debugger;
+            console.log(error);
+        }
+
+        
+
+
+
+
+    });
+    
+
+
 
 
    // let editingComment = null; // 수정 중인 댓글을 추적
@@ -637,6 +664,20 @@ async function callAjax() {
 
 
 
+document.querySelector(`[${this.tboardInstance.tagMap.dataset.tbPageId}="${this.tboardInstance.uuid}"`);
+
+
+tboardUtil.commonAlert( "수정하시겠습니까?", () => {
+    let inputData = {};
+    inputData = pstAllInfo;
+    inputData.isWriteMode = false;
+
+    let args = {
+        key: "basicWrite.view"
+        , data: inputData
+    };
+    this.handleEvent(args);
+} );
 
 
 

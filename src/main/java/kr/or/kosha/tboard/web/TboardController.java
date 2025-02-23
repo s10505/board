@@ -112,6 +112,9 @@ public class TboardController {
             ObjectMapper objectMapper = new ObjectMapper();
             StdTboardDataUtil stdUtil = new StdTboardDataUtil();
             
+            System.out.println("------------------!!!!!!");
+            
+            this.getAuthData(null);
             
             JSONArray array = new JSONArray();
             JSONObject object = new JSONObject();
@@ -167,6 +170,7 @@ public class TboardController {
             });
             
             
+            
             System.out.println("inputData : " + inputData.toJSONString());
             
     		return new ResponseEntity<>(null, HttpStatus.OK);
@@ -176,7 +180,10 @@ public class TboardController {
         	response.setRtnCode("-1");
         	response.setRtnSubCode("-1");
         	response.setRtnSubMsg(e.getMessage());
-    		
+        } catch (NullPointerException e) {
+        	
+        	
+        	
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -185,7 +192,18 @@ public class TboardController {
 	}
 	
 	
-	
+	public void getAuthData(Object obj) {
+        for (int i = 0; i < 1000000; i++) {
+            try {
+                // NullPointerException을 반복적으로 발생시켜 예외가 자주 던져지도록 설정
+                String str = null;
+                str.length();  // 예외 발생
+            } catch (Exception e) {
+                // 반복적으로 예외가 발생하므로, 모든 예외에서 stack trace를 출력
+                e.printStackTrace();
+            }
+        }
+	}
 	
 	
 	/**
